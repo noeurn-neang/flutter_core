@@ -1,0 +1,62 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:get/get.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
+
+import '../constants/theme.dart';
+
+void showMessage(String body, {bool isError = false}) {
+  Get.snackbar(
+    isError ? 'Error' : 'Success',
+    body,
+    backgroundColor: isError ? dangerColor : successColor,
+    colorText: Colors.white,
+  );
+}
+
+void showLoading({String? message}) {
+  EasyLoading.show(
+      status: message ?? 'Loading...', maskType: EasyLoadingMaskType.black);
+}
+
+void hideLoading() {
+  EasyLoading.dismiss();
+}
+
+void showConfirm(String title, String desc,
+    {Icon? icon, VoidCallback? onConfirm, VoidCallback? onReject}) {
+  Alert(
+    context: Get.context!,
+    // type: AlertType.warning,
+    title: title,
+    desc: desc,
+    image: icon,
+    buttons: [
+      DialogButton(
+        onPressed: () {
+          Navigator.pop(Get.context!);
+          if (onReject != null) onReject();
+        },
+        color: const Color.fromRGBO(0, 179, 134, 1.0),
+        child: const Text(
+          "Cancel",
+          style: TextStyle(color: Colors.white, fontSize: 20),
+        ),
+      ),
+      DialogButton(
+        onPressed: () {
+          Navigator.pop(Get.context!);
+          if (onConfirm != null) onConfirm();
+        },
+        gradient: const LinearGradient(colors: [
+          Color.fromRGBO(116, 116, 191, 1.0),
+          Color.fromRGBO(52, 138, 199, 1.0)
+        ]),
+        child: const Text(
+          "Confirm",
+          style: TextStyle(color: Colors.white, fontSize: 20),
+        ),
+      )
+    ],
+  ).show();
+}
