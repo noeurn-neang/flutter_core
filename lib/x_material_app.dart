@@ -4,6 +4,8 @@ import 'package:get/get.dart';
 
 import './utils/translate_utils.dart';
 import 'configs/variables.dart';
+import 'constants/common.dart';
+import 'services/index.dart';
 
 class XMaterialApp extends StatelessWidget {
   final String? title;
@@ -34,6 +36,9 @@ class XMaterialApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    bool isDarkMode =
+        StorageService.getBool(StorageItem.isDarkMode.toString()) ?? false;
+
     return GetMaterialApp(
       title: title ?? 'Application',
       initialRoute: initialRoute,
@@ -46,7 +51,7 @@ class XMaterialApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       builder: builder ?? EasyLoading.init(),
       themeMode: themeMode,
-      theme: theme,
+      theme: isDarkMode ? Variables.themeDataDark : Variables.themeDataLight,
     );
   }
 }

@@ -3,9 +3,11 @@ import 'package:get/get.dart';
 import '../configs/variables.dart';
 import '../mixins/cache_manager_mixin.dart';
 import '../utils/dialog_utils.dart';
+import '../utils/theme_utils.dart';
 import '../utils/translate_utils.dart';
 
 class BaseSettingsController extends GetxController with CacheManagerMixin {
+  var isDarkMode = false.obs;
   final locale = Variables.defaultLocaleCode.obs;
 
   BaseSettingsController();
@@ -14,11 +16,21 @@ class BaseSettingsController extends GetxController with CacheManagerMixin {
   void onInit() {
     super.onInit();
 
+    isDarkMode.value = getIsDarkMode() ?? false;
     locale.value = getLocale() ?? Variables.defaultLocaleCode;
   }
 
   void handleChangeLanguage() {
     showLanguageDialog();
+  }
+
+  void handleChangeThemeMode() {
+    isDarkMode.value = !isDarkMode.value;
+    saveIsDarkMode(isDarkMode.value);
+    Get.changeTheme(
+        isDarkMode.value ? Variables.themeDataDark : Variables.themeDataLight);
+    refreshStatusBarBightness();
+    Get.forceAppUpdate();
   }
 
   showLanguageDialog() {

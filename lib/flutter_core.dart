@@ -2,14 +2,19 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get_storage/get_storage.dart';
 
 import 'flutter_core_platform_interface.dart';
+import 'utils/theme_utils.dart';
 
 class FlutterCore {
   Future<String?> getPlatformVersion() {
     return FlutterCorePlatform.instance.getPlatformVersion();
   }
 
-  static void initApplication() async {
+  static Future<void> initApplication() async {
+    // Init get storage
     await GetStorage.init();
+
+    // Change status bar color
+    refreshStatusBarBightness();
   }
 
   static void configLoading() {
