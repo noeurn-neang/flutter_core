@@ -27,7 +27,10 @@ void showConfirm(String title, String desc,
     {Icon? icon, VoidCallback? onConfirm, VoidCallback? onReject}) {
   Alert(
     context: Get.context!,
-    // type: AlertType.warning,
+    style: AlertStyle(
+      descStyle: Theme.of(Get.context!).textTheme.bodyLarge!,
+      titleStyle: Theme.of(Get.context!).textTheme.titleLarge!,
+    ),
     title: title,
     desc: desc,
     image: icon,
