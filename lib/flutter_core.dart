@@ -14,7 +14,7 @@ class FlutterCore {
     await GetStorage.init();
 
     // Change status bar color
-    refreshStatusBarBightness();
+    refreshStatusBarBrightness();
   }
 
   static void configLoading() {

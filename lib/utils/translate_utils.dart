@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 import '../configs/variables.dart';
 
-Locale getLanguageCodeFromLocale(String locale) {
+Locale getLocaleFromString(String locale) {
   var arr = locale.split('_');
   return Locale(arr[0], arr.length > 1 ? arr[1] : 'US');
 }

@@ -38,6 +38,8 @@ class XMaterialApp extends StatelessWidget {
   Widget build(BuildContext context) {
     bool isDarkMode =
         StorageService.getBool(StorageItem.isDarkMode.toString()) ?? false;
+    String localeStr =
+        StorageService.getString(StorageItem.locale.toString()) ?? 'en_US';
 
     return GetMaterialApp(
       title: title ?? 'Application',
@@ -45,9 +47,9 @@ class XMaterialApp extends StatelessWidget {
       initialBinding: initialBinding,
       getPages: getPages,
       translationsKeys: translationsKeys,
-      locale: locale,
-      fallbackLocale: fallbackLocale ??
-          getLanguageCodeFromLocale(Variables.defaultLocaleCode),
+      locale: getLocaleFromString(localeStr),
+      fallbackLocale:
+          fallbackLocale ?? getLocaleFromString(Variables.defaultLocaleCode),
       debugShowCheckedModeBanner: false,
       builder: builder ?? EasyLoading.init(),
       themeMode: themeMode,

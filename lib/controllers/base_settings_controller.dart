@@ -29,7 +29,7 @@ class BaseSettingsController extends GetxController with CacheManagerMixin {
     saveIsDarkMode(isDarkMode.value);
     Get.changeTheme(
         isDarkMode.value ? Variables.themeDataDark : Variables.themeDataLight);
-    refreshStatusBarBightness();
+    refreshStatusBarBrightness();
     Get.forceAppUpdate();
   }
 
@@ -49,7 +49,7 @@ class BaseSettingsController extends GetxController with CacheManagerMixin {
         selectedId: locale.value, onItemSelected: (dynamic newLocale) {
       locale.value = newLocale;
       saveLocale(newLocale);
-      Get.updateLocale(getLanguageCodeFromLocale(newLocale));
+      Get.updateLocale(getLocaleFromString(newLocale));
       Get.back();
     });
   }
