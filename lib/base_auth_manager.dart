@@ -39,7 +39,6 @@ abstract class BaseAuthManager extends GetxController with CacheManagerMixin {
   void setAuthState(userJson);
 
   void saveToCache(tokenStr, userJson) async {
-    print('tokenStr: ${tokenStr}');
     await saveUser(json.encode(userJson));
     if (tokenStr != null) await saveToken(tokenStr);
 
@@ -49,11 +48,14 @@ abstract class BaseAuthManager extends GetxController with CacheManagerMixin {
 
   Future<void> checkLoginStatus() async {
     final token = getToken();
-    print('token: ${token}');
     if (token != null) {
-      var userStr = getUser();
-      setAuthState(json.decode(userStr!));
-      redirectAfterLoggedIn();
+      try {
+        var userStr = getUser();
+        setAuthState(json.decode(userStr!));
+        redirectAfterLoggedIn();
+      } catch (e) {
+        logOut();
+      }
     } else {
       redirectAfterLoggedOut();
     }

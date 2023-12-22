@@ -15,8 +15,8 @@ mixin CacheManagerMixin {
     return await StorageService.remove(StorageItem.token.toString());
   }
 
-  Future<bool> saveUser(String token) async {
-    StorageService.write(StorageItem.user.toString(), token);
+  Future<bool> saveUser(String user) async {
+    StorageService.write(StorageItem.user.toString(), user);
     return true;
   }
 
