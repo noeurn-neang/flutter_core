@@ -33,3 +33,21 @@ Widget getFlagFromLocale(String locale,
     borderRadius: borderRadius,
   );
 }
+
+Widget getFlagCountryCode(String locale,
+    {double width = 30, double height = 20, double borderRadius = 3}) {
+  if (locale.toLowerCase() == 'ar') {
+    return const Icon(Icons.flag);
+  }
+  try {
+    return Flag.fromString(
+      locale,
+      height: height,
+      width: width,
+      fit: BoxFit.fill,
+      borderRadius: borderRadius,
+    );
+  } catch (e) {
+    return const Icon(Icons.flag);
+  }
+}

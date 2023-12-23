@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import './utils/translate_utils.dart';
 import 'configs/variables.dart';
 import 'constants/common.dart';
+import 'routes/app_pages.dart';
 import 'services/index.dart';
 
 class XMaterialApp extends StatelessWidget {
@@ -40,6 +41,10 @@ class XMaterialApp extends StatelessWidget {
         StorageService.getBool(StorageItem.isDarkMode.toString()) ?? false;
     String localeStr =
         StorageService.getString(StorageItem.locale.toString()) ?? 'en_US';
+
+    for (var route in AppPages.routes) {
+      getPages!.add(route);
+    }
 
     return GetMaterialApp(
       title: title ?? 'Application',
