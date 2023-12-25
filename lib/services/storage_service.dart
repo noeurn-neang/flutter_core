@@ -1,7 +1,6 @@
 import 'package:get_storage/get_storage.dart';
 
 class StorageService {
-
   static Future<void> write(String key, dynamic value) async {
     final box = GetStorage();
     return await box.write(key, value!);
@@ -13,6 +12,11 @@ class StorageService {
   }
 
   static bool? getBool(String key) {
+    final box = GetStorage();
+    return box.read(key);
+  }
+
+  static int? getInt(String key) {
     final box = GetStorage();
     return box.read(key);
   }

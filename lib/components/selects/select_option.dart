@@ -8,6 +8,7 @@ import '../../routes/app_pages.dart';
 class SelectOption extends StatelessWidget {
   final String? title;
   final bool? enabled;
+  final FormFieldValidator<String>? validator;
   final SelectOptionController? controller;
   final InputBorder? border;
   final Widget? icon;
@@ -26,7 +27,8 @@ class SelectOption extends StatelessWidget {
       required this.type,
       this.resultType = SelectOptionResult.value,
       this.labelKey = 'label',
-      this.valueKey = 'code'});
+      this.valueKey = 'code',
+      this.validator});
 
   @override
   Widget build(BuildContext context) {
@@ -41,6 +43,7 @@ class SelectOption extends StatelessWidget {
           controller!.setSelected(json.decode(result['selected']), labelKey);
         }
       },
+      validator: validator,
       enabled: enabled,
       readOnly: true,
       controller: controller,

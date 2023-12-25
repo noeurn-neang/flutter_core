@@ -7,6 +7,7 @@ enum StorageItem {
   locale,
   expiredDt,
   translationKeys,
+  defaultCardIndex
 }
 
 enum EnvItem { baseApiUrl, authHeadKey }
