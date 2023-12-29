@@ -45,7 +45,7 @@ class BaseSettingsController extends GetxController with CacheManagerMixin {
         .toList();
 
     DialogUtils.showSelection(Get.context!, list,
-        title: 'Select Language',
+        title: 'Select Language'.tr,
         selectedId: locale.value, onItemSelected: (dynamic newLocale) {
       locale.value = newLocale;
       saveLocale(newLocale);

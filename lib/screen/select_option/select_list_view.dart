@@ -28,7 +28,7 @@ class SelectListView extends GetView<SelectListController> {
           controller.onSearchTextChange(value);
         },
         decoration: InputDecoration(
-          hintText: 'Search...',
+          hintText: 'Search...'.tr,
           // Add a clear button to the search bar
           suffixIcon: IconButton(
             icon: const Icon(Icons.clear),
@@ -50,9 +50,9 @@ class SelectListView extends GetView<SelectListController> {
   String getTitle() {
     switch (controller.dataType) {
       case SelectOptionDataType.country:
-        return 'Countries';
+        return 'Countries'.tr;
       default:
-        return 'Select Options';
+        return 'Select Options'.tr;
     }
   }
 

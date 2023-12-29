@@ -7,7 +7,7 @@ import '../constants/theme.dart';
 
 void showMessage(String body, {bool isError = false}) {
   Get.snackbar(
-    isError ? 'Error' : 'Success',
+    isError ? 'Error'.tr : 'Success'.tr,
     body,
     backgroundColor: isError ? dangerColor : successColor,
     colorText: Colors.white,
@@ -16,7 +16,7 @@ void showMessage(String body, {bool isError = false}) {
 
 void showLoading({String? message}) {
   EasyLoading.show(
-      status: message ?? 'Loading...', maskType: EasyLoadingMaskType.black);
+      status: message ?? 'Loading...'.tr, maskType: EasyLoadingMaskType.black);
 }
 
 void hideLoading() {
@@ -41,9 +41,9 @@ void showConfirm(String title, String desc,
           if (onReject != null) onReject();
         },
         color: const Color.fromRGBO(0, 179, 134, 1.0),
-        child: const Text(
-          "Cancel",
-          style: TextStyle(color: Colors.white, fontSize: 20),
+        child: Text(
+          "Cancel".tr,
+          style: const TextStyle(color: Colors.white, fontSize: 20),
         ),
       ),
       DialogButton(
@@ -55,9 +55,9 @@ void showConfirm(String title, String desc,
           Color.fromRGBO(116, 116, 191, 1.0),
           Color.fromRGBO(52, 138, 199, 1.0)
         ]),
-        child: const Text(
-          "Confirm",
-          style: TextStyle(color: Colors.white, fontSize: 20),
+        child: Text(
+          "Confirm".tr,
+          style: const TextStyle(color: Colors.white, fontSize: 20),
         ),
       )
     ],

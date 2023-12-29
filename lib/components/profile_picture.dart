@@ -34,7 +34,7 @@ class ProfilePicture extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    ImageProvider? backgroundImage = (imageUrl!.isNotEmpty
+    ImageProvider? backgroundImage = (imageUrl != null && imageUrl!.isNotEmpty
         ? NetworkImage(imageUrl!)
         : AssetImage(defaultImagePath)) as ImageProvider<Object>?;
     return Padding(
@@ -43,7 +43,7 @@ class ProfilePicture extends StatelessWidget {
         alignment: const Alignment(1.5, 1.3),
         children: <Widget>[
           InkWell(
-            onTap: imageUrl!.isNotEmpty
+            onTap: imageUrl != null && imageUrl!.isNotEmpty
                 ? () {
                     previewImage(context: Get.context!, imageUrl: imageUrl!);
                   }
@@ -69,14 +69,14 @@ class ProfilePicture extends StatelessWidget {
             menuChildren: [
               MenuItemButton(
                 leadingIcon: const Icon(Icons.image),
-                child: const Text('Gallery'),
+                child: Text('Gallery'.tr),
                 onPressed: () {
                   showPickImage(ImageSource.gallery, context: context);
                 },
               ),
               MenuItemButton(
                 leadingIcon: const Icon(Icons.camera),
-                child: const Text('Camera'),
+                child: Text('Camera'.tr),
                 onPressed: () {
                   showPickImage(ImageSource.camera, context: context);
                 },
