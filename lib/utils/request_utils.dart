@@ -25,17 +25,3 @@ void handleRequestError(Response response) {
     showMessage(response.body, isError: true);
   }
 }
-
-void handleRequestSuccess(Response response) {
-  try {
-    // final body = response.body;
-
-    // if (body['token'] != null) {
-    //   StorageService.write(StorageItem.token.toString(), body['token']);
-    // }
-  } catch (e) {
-    if (kDebugMode) {
-      print('Error While Update Token: $e');
-    }
-  }
-}
