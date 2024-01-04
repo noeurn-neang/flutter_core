@@ -12,7 +12,7 @@ abstract class BaseAuthManager extends GetxController with CacheManagerMixin {
   @override
   void onReady() {
     super.onReady();
-    Timer(const Duration(seconds: 1), () {
+    Timer(const Duration(milliseconds: 200), () {
       checkLoginStatus();
     });
   }
