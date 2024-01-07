@@ -15,7 +15,7 @@ void handleRequestError(Response response) {
       messageBody = body['message'];
       showMessage(messageBody, isError: true);
     } else {
-      showMessage('Please check your internet!', isError: true);
+      showMessage('Please check your internet!'.tr, isError: true);
     }
   } catch (e) {
     if (kDebugMode) {

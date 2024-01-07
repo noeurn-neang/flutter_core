@@ -9,6 +9,8 @@ import 'buttons/icon_circle_button.dart';
 class ProfilePicture extends StatelessWidget {
   final String? imageUrl;
   final String defaultImagePath;
+  final double? size;
+
   final Function(XFile pickedFile) onImagePicked;
 
   final ImagePicker _picker = ImagePicker();
@@ -17,7 +19,8 @@ class ProfilePicture extends StatelessWidget {
       {super.key,
       this.imageUrl,
       required this.defaultImagePath,
-      required this.onImagePicked});
+      required this.onImagePicked,
+      this.size});
 
   Future<void> showPickImage(
     ImageSource source, {
@@ -50,7 +53,7 @@ class ProfilePicture extends StatelessWidget {
                 : null,
             child: CircleAvatar(
               backgroundImage: backgroundImage,
-              radius: 50.0,
+              radius: size ?? 50.0,
             ),
           ),
           MenuAnchor(

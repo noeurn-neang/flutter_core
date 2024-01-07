@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../components/bottom_sheet_app_bar.dart';
+import '../constants/dimens.dart';
 import '../constants/theme.dart';
 
 class DialogUtils {
@@ -9,7 +10,7 @@ class DialogUtils {
     showModalBottomSheet(
         context: context,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(4),
+          borderRadius: BorderRadius.circular(Dimens.borderRadius),
         ),
         builder: (_) {
           return Wrap(
