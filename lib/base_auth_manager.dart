@@ -18,6 +18,7 @@ abstract class BaseAuthManager extends GetxController with CacheManagerMixin {
   }
 
   void logOut() async {
+    removeAuthState();
     await removeToken();
     await removeUser();
     redirectAfterLoggedOut();
@@ -37,6 +38,8 @@ abstract class BaseAuthManager extends GetxController with CacheManagerMixin {
   void redirectAfterLoggedOut();
 
   void setAuthState(userJson);
+
+  void removeAuthState();
 
   void saveToCache(tokenStr, userJson) async {
     await saveUser(json.encode(userJson));
