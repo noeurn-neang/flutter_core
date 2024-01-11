@@ -38,7 +38,8 @@ class XMaterialApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     bool isDarkMode =
-        StorageService.getBool(StorageItem.isDarkMode.toString()) ?? false;
+        StorageService.getBool(StorageItem.isDarkMode.toString()) ??
+            (MediaQuery.of(context).platformBrightness == Brightness.dark);
     String localeStr =
         StorageService.getString(StorageItem.locale.toString()) ?? 'en_US';
 

@@ -1,7 +1,11 @@
 import 'dart:convert';
+import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:path/path.dart' as path;
+import 'package:path_provider/path_provider.dart';
 
 Future<String> convertXFileToBase64(XFile file) async {
   // Read the file as bytes
@@ -11,6 +15,27 @@ Future<String> convertXFileToBase64(XFile file) async {
   String base64String = base64Encode(fileBytes);
 
   return base64String;
+}
+
+Future<XFile> convertUint8ListToXFile(Uint8List uint8List) async {
+  // Get the application support directory
+  Directory appSupportDir = await getApplicationSupportDirectory();
+  String appSupportPath = appSupportDir.path;
+
+  // Generate a unique file name
+  String fileName = path.basenameWithoutExtension(DateTime.now()
+      .toIso8601String()); // Generate a unique file name using DateTime
+
+  // Construct the file path
+  String filePath = path.join(appSupportPath, '$fileName.png');
+
+  // Write the Uint8List data to the file
+  await File(filePath).writeAsBytes(uint8List);
+
+  // Create an XFile object from the file path
+  XFile xFile = XFile(filePath);
+
+  return xFile;
 }
 
 void previewImage({required BuildContext context, required String imageUrl}) {

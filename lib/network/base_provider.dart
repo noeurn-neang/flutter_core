@@ -18,6 +18,7 @@ abstract class BaseProvider extends GetConnect {
     httpClient.baseUrl = baseApiUrl;
     httpClient.addRequestModifier(requestInterceptor);
     httpClient.addResponseModifier(responseInterceptor);
+    httpClient.timeout = const Duration(seconds: 20);
   }
 
   FutureOr<Request> requestInterceptor(request) async {
