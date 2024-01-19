@@ -75,4 +75,13 @@ mixin CacheManagerMixin {
   Future<void> clearCache() async {
     return await StorageService.clear();
   }
+
+  Future<bool> saveDefaultCurrency(String currency) async {
+    StorageService.write(StorageItem.defaultCurrency.toString(), currency);
+    return true;
+  }
+
+  String? getDefaultCurrency() {
+    return StorageService.getString(StorageItem.defaultCurrency.toString());
+  }
 }

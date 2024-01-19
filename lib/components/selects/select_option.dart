@@ -16,6 +16,7 @@ class SelectOption extends StatelessWidget {
   final SelectOptionResult? resultType;
   final String labelKey;
   final String valueKey;
+  final GestureTapCallback? onTap;
 
   const SelectOption(
       {super.key,
@@ -24,25 +25,28 @@ class SelectOption extends StatelessWidget {
       this.controller,
       this.border,
       this.icon,
-      required this.type,
+      this.type = SelectOptionDataType.general,
       this.resultType = SelectOptionResult.value,
       this.labelKey = 'label',
       this.valueKey = 'code',
-      this.validator});
+      this.validator,
+      this.onTap});
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
-      onTap: () async {
-        var result = await Get.toNamed(Routes.SELECT_LIST, parameters: {
-          'dataType': type.name,
-          'selected': json.encode(controller!.selected),
-          'resultType': resultType!.name
-        });
-        if (result != null && controller != null) {
-          controller!.setSelected(json.decode(result['selected']), labelKey);
-        }
-      },
+      onTap: onTap ??
+          () async {
+            var result = await Get.toNamed(Routes.SELECT_LIST, parameters: {
+              'dataType': type.name,
+              'selected': json.encode(controller!.selected),
+              'resultType': resultType!.name
+            });
+            if (result != null && controller != null) {
+              controller!
+                  .setSelected(json.decode(result['selected']), labelKey);
+            }
+          },
       validator: validator,
       enabled: enabled,
       readOnly: true,
@@ -67,9 +71,7 @@ class SelectOptionController extends TextEditingController {
   }
 }
 
-enum SelectOptionDataType {
-  country,
-}
+enum SelectOptionDataType { country, general }
 
 enum SelectOptionResult {
   value,
