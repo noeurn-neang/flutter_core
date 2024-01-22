@@ -5,6 +5,7 @@ import 'package:intl/intl.dart';
 
 NumberFormat numberFormat =
     NumberFormat.decimalPatternDigits(locale: 'en_US', decimalDigits: 2);
+const String dateFormatDb = 'y-MM-dd';
 
 class StringUtils {
   StringUtils._();
@@ -45,17 +46,22 @@ class StringUtils {
 
   static String formatDateTime(DateTime? dateTime) {
     if (dateTime == null) return '';
-    return DateFormat('d-MMM-y HH:ss').format(dateTime);
+    return DateFormat('dd-MMM-y HH:ss').format(dateTime);
   }
 
   static String formatDateDB(String? dateTime) {
     if (dateTime == null) return '';
-    return DateFormat('d-MMM-y').format(toDate(dateTime));
+    return DateFormat('dd-MMM-y').format(toDate(dateTime));
+  }
+
+  static String formatDate(String? dateTime, {String format = 'd-MMM-y'}) {
+    if (dateTime == null) return '';
+    return DateFormat(format).format(toDate(dateTime));
   }
 
   static String formatDateTimeDB(String? dateTime) {
     if (dateTime == null) return '';
-    return DateFormat('d-MMM-y HH:ss').format(toDate(dateTime));
+    return DateFormat('dd-MMM-y HH:ss').format(toDate(dateTime));
   }
 
   static DateTime toDate(String dateStr) {

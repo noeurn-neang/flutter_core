@@ -23,6 +23,20 @@ mixin FormValidationMixin {
     return null;
   }
 
+  String? validateInteger(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'This field is required!'.tr;
+    }
+
+    String patttern = r'^\d+$';
+    RegExp regExp = RegExp(patttern);
+    if (!regExp.hasMatch(value)) {
+      return 'Please enter valid number!'.tr;
+    }
+
+    return null;
+  }
+
   String? validateEmail(String? value) {
     String patttern =
         r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
