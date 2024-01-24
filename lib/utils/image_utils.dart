@@ -3,9 +3,14 @@ import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart' as path;
 import 'package:path_provider/path_provider.dart';
+import 'package:photo_view/photo_view.dart';
+
+import '../getx.dart';
+import 'message_utils.dart';
 
 Future<String> convertXFileToBase64(XFile file) async {
   // Read the file as bytes
@@ -38,7 +43,60 @@ Future<XFile> convertUint8ListToXFile(Uint8List uint8List) async {
   return xFile;
 }
 
+void downloadImage(String imageUrl) async {
+  showLoading();
+  Uri uri = Uri.parse(imageUrl);
+
+  // Send an HTTP GET request to the image URL
+  http.Response response = await http.get(uri);
+
+  // Get the temporary directory using the path_provider package
+  Directory tempDir = await getTemporaryDirectory();
+  String tempPath = tempDir.path;
+
+  // Generate a unique file name for the image
+  String fileName = DateTime.now().millisecondsSinceEpoch.toString();
+
+  // Create a File object with the temporary directory and file name
+  File imageFile = File('$tempPath/$fileName.png');
+
+  // Write the image data to the file
+  await imageFile.writeAsBytes(response.bodyBytes);
+
+  // Get the gallery directory using the path_provider package
+  Directory? galleryDir = await getExternalStorageDirectory();
+  if (galleryDir != null) {
+    String galleryPath = galleryDir.path;
+
+    // Create a File object with the gallery directory and file name
+    File savedImage = File('$galleryPath/$fileName.png');
+
+    // Copy the image file to the gallery directory
+    await imageFile.copy(savedImage.path);
+
+    hideLoading();
+
+    // Show a snackbar notification using GetX
+    Get.snackbar(
+      'Image Saved'.tr,
+      'Image saved to gallery'.tr,
+      colorText: Colors.white,
+      snackPosition: SnackPosition.BOTTOM,
+    );
+  } else {
+    hideLoading();
+
+    Get.snackbar(
+      'Something went wrong!'.tr,
+      'Try again later.'.tr,
+      colorText: Colors.white,
+      snackPosition: SnackPosition.BOTTOM,
+    );
+  }
+}
+
 void previewImage({required BuildContext context, required String imageUrl}) {
+  var shadows = <Shadow>[const Shadow(color: Colors.black, blurRadius: 15.0)];
   showDialog<void>(
     context: context,
     builder: (context) => Dialog.fullscreen(
@@ -46,25 +104,43 @@ void previewImage({required BuildContext context, required String imageUrl}) {
       child: Padding(
         padding: const EdgeInsets.all(20.0),
         child: Scaffold(
-          appBar: AppBar(
-            backgroundColor: Colors.black,
-            leading: IconButton(
-              icon: const Icon(
-                Icons.close,
-                color: Colors.white,
-              ),
-              onPressed: () => Navigator.of(context).pop(),
-            ),
-          ),
-          body: Container(
-            decoration: const BoxDecoration(color: Colors.black),
-            width: double.infinity,
-            child: Center(
-              child: Image.network(
-                imageUrl,
+          body: Stack(
+            children: [
+              Container(
+                decoration: const BoxDecoration(color: Colors.black),
                 width: double.infinity,
+                child: Center(
+                  child: PhotoView(
+                    imageProvider: NetworkImage(
+                      imageUrl,
+                    ),
+                  ),
+                ),
               ),
-            ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  IconButton(
+                      onPressed: () {
+                        Get.back();
+                      },
+                      icon: Icon(
+                        shadows: shadows,
+                        Icons.arrow_back,
+                        color: Colors.white,
+                      )),
+                  IconButton(
+                      onPressed: () {
+                        downloadImage(imageUrl);
+                      },
+                      icon: Icon(
+                        shadows: shadows,
+                        Icons.download,
+                        color: Colors.white,
+                      ))
+                ],
+              )
+            ],
           ),
         ),
       ),
