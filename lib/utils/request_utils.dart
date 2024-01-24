@@ -11,7 +11,7 @@ void handleRequestError(Response response) {
       print('Error Body: $body');
     }
 
-    if (body != null && body['success'] == false) {
+    if (body != null && (body['success'] == false || body['message'] != null)) {
       messageBody = body['message'];
       showMessage(messageBody, isError: true);
     } else {
