@@ -23,5 +23,5 @@ class Variables {
 
   static double maxUploadImageWidth = 1024;
   static double maxUploadImageHeight = 1024;
-  static int uploadImageQuaility = 100; // 50% quaility
+  static int uploadImageQuaility = 80; // 50% quaility
 }
