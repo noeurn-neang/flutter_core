@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
+import '../configs/variables.dart';
 import '../constants/dimens.dart';
 import '../getx.dart';
 import '../utils/image_utils.dart';
@@ -28,8 +29,11 @@ class ProfilePicture extends StatelessWidget {
   }) async {
     if (context.mounted) {
       try {
-        final XFile? pickedFile =
-            await _picker.pickImage(source: source, imageQuality: 30);
+        final XFile? pickedFile = await _picker.pickImage(
+            source: source,
+            imageQuality: Variables.uploadImageQuaility,
+            maxWidth: Variables.maxUploadImageWidth,
+            maxHeight: Variables.maxUploadImageHeight);
         if (pickedFile != null) onImagePicked(pickedFile);
       } catch (e) {}
     }

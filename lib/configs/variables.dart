@@ -20,4 +20,8 @@ class Variables {
     useMaterial3: true,
     brightness: Brightness.dark,
   );
+
+  static double maxUploadImageWidth = 720;
+  static double maxUploadImageHeight = 1024;
+  static int uploadImageQuaility = 50; // 50% quaility
 }
