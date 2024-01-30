@@ -21,7 +21,7 @@ class Variables {
     brightness: Brightness.dark,
   );
 
-  static double maxUploadImageWidth = 720;
+  static double maxUploadImageWidth = 1024;
   static double maxUploadImageHeight = 1024;
   static int uploadImageQuaility = 100; // 50% quaility
 }
