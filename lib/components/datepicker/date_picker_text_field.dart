@@ -50,7 +50,7 @@ class DatePickerTextField extends StatelessWidget {
       controller: controller,
       textInputAction: TextInputAction.next,
       decoration: InputDecoration(
-        border: const UnderlineInputBorder(),
+        border: border ?? const UnderlineInputBorder(),
         labelText: title,
         icon: icon,
       ),
