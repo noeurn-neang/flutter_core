@@ -11,14 +11,16 @@ import '../services/index.dart';
 abstract class BaseProvider extends GetConnect {
   final String baseApiUrl;
 
-  BaseProvider(this.baseApiUrl);
+  BaseProvider(this.baseApiUrl) {
+    httpClient.baseUrl = baseApiUrl;
+    timeout = const Duration(seconds: 30);
+  }
 
   @override
   void onInit() {
-    httpClient.baseUrl = baseApiUrl;
     httpClient.addRequestModifier(requestInterceptor);
     httpClient.addResponseModifier(responseInterceptor);
-    httpClient.timeout = const Duration(seconds: 20);
+    httpClient.timeout = const Duration(seconds: 30);
   }
 
   FutureOr<Request> requestInterceptor(request) async {

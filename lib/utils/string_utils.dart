@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:crypto/crypto.dart';
+import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 NumberFormat numberFormat =
@@ -91,5 +92,33 @@ class StringUtils {
 
   static bool isNotNull(String? text) {
     return text != null && text.isNotEmpty;
+  }
+
+  static TimeOfDay toTime(String text) {
+    DateTime dateTime = DateFormat("h:mm a").parse(text);
+    return TimeOfDay.fromDateTime(dateTime);
+  }
+
+  static String toHour(String text) {
+    try {
+      DateTime dateTime = DateFormat("h:mm a").parse(text);
+      return DateFormat('ha').format(dateTime);
+    } catch (e) {
+      return text;
+    }
+  }
+
+  static String doubleWithoutZero(double value) {
+    RegExp regex = RegExp(r'([.]*0)(?!.*\d)');
+    return value.toString().replaceAll(regex, '');
+  }
+
+  static String formatDistance(double meters) {
+    if (meters >= 1000) {
+      double kilometers = meters / 1000;
+      return '${kilometers.toStringAsFixed(2)} km';
+    } else {
+      return '${meters.ceil()} m';
+    }
   }
 }

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../constants/dimens.dart';
+
 class BottomSheetAppBar extends StatelessWidget {
   final String title;
   final Widget? rightElement;
@@ -16,7 +18,10 @@ class BottomSheetAppBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(10),
+      padding: const EdgeInsets.symmetric(
+        vertical: Dimens.margin,
+        horizontal: Dimens.marginLarge,
+      ),
       child: Row(
         children: [
           Expanded(
@@ -26,21 +31,14 @@ class BottomSheetAppBar extends StatelessWidget {
             ),
           ),
           if (rightElement != null) ...[rightElement!],
-          InkWell(
-            child: const Padding(
-              padding: EdgeInsets.symmetric(
-                vertical: 10,
-                horizontal: 15,
-              ),
-              child: Icon(Icons.close),
-            ),
-            onTap: () {
-              Get.back();
-              if (onClose != null) {
-                onClose!();
-              }
-            },
-          ),
+          IconButton(
+              onPressed: () {
+                Get.back();
+                if (onClose != null) {
+                  onClose!();
+                }
+              },
+              icon: const Icon(Icons.close))
         ],
       ),
     );

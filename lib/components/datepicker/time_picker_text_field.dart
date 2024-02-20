@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:get/utils.dart';
+import 'package:get/get.dart';
 
 import '../../utils/string_utils.dart';
 
-class DatePickerTextField extends StatelessWidget {
+class TimePickerTextField extends StatelessWidget {
   final String? title;
   final bool? enabled;
   final FormFieldValidator<String>? validator;
@@ -12,7 +12,7 @@ class DatePickerTextField extends StatelessWidget {
   final Widget? icon;
   final InputDecoration? decoration;
 
-  const DatePickerTextField(
+  const TimePickerTextField(
       {super.key,
       this.title,
       this.enabled,
@@ -23,20 +23,16 @@ class DatePickerTextField extends StatelessWidget {
       this.decoration});
 
   Future<void> showDatePickerDialog(BuildContext context) async {
-    final DateTime? pickedDate = await showDatePicker(
+    final TimeOfDay? pickedDate = await showTimePicker(
         context: context,
-        initialDate: StringUtils.isNotNull(controller!.text)
-            ? StringUtils.toDate(controller!.text)
-            : DateTime.now(),
-        firstDate:
-            DateTime.now().subtract(const Duration(days: 365 * 10)), // 10 years
-        lastDate: DateTime.now().add(const Duration(days: 365 * 5)), // 1 year
+        initialTime: StringUtils.isNotNull(controller!.text)
+            ? StringUtils.toTime(controller!.text)
+            : TimeOfDay.now(),
         cancelText: 'Cancel'.tr,
-        confirmText: 'Ok'.tr,
-        fieldLabelText: 'Select Date'.tr);
+        confirmText: 'Ok'.tr);
 
     if (pickedDate != null && controller != null) {
-      controller!.text = "${pickedDate.toLocal()}".split(' ')[0];
+      controller!.text = pickedDate.format(Get.context!);
     }
   }
 
@@ -51,7 +47,6 @@ class DatePickerTextField extends StatelessWidget {
       readOnly: true,
       controller: controller,
       textInputAction: TextInputAction.next,
-      textAlign: TextAlign.center,
       textAlignVertical: TextAlignVertical.center,
       decoration: decoration ??
           InputDecoration(
