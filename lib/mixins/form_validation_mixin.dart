@@ -1,4 +1,5 @@
 import '../getx.dart';
+import '../utils/string_utils.dart';
 
 mixin FormValidationMixin {
   String? validateRequired(String? value) {
@@ -18,6 +19,18 @@ mixin FormValidationMixin {
     RegExp regExp = RegExp(patttern);
     if (!regExp.hasMatch(value)) {
       return 'Please enter valid mobile number!'.tr;
+    }
+
+    return null;
+  }
+
+  String? validatePhoneNumberOptional(String? value) {
+    if (StringUtils.isNotNull(value)) {
+      String patttern = r'^\d{8,15}$';
+      RegExp regExp = RegExp(patttern);
+      if (!regExp.hasMatch(value!)) {
+        return 'Please enter valid mobile number!'.tr;
+      }
     }
 
     return null;
