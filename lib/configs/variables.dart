@@ -7,6 +7,7 @@ class Variables {
 
   static String authHeaderKey = 'Authorization';
   static String defaultLocaleCode = 'en_US';
+  static String defaultDateFormat = 'd-MMM-y';
   static List<LanguageModel> languages = [LanguageModel("en", "us", "English")];
 
   static ThemeData themeDataLight = ThemeData(

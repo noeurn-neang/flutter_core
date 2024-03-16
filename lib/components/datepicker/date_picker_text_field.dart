@@ -11,6 +11,7 @@ class DatePickerTextField extends StatelessWidget {
   final InputBorder? border;
   final Widget? icon;
   final InputDecoration? decoration;
+  final TextAlign? align;
 
   const DatePickerTextField(
       {super.key,
@@ -20,7 +21,8 @@ class DatePickerTextField extends StatelessWidget {
       this.controller,
       this.border,
       this.icon,
-      this.decoration});
+      this.decoration,
+      this.align});
 
   Future<void> showDatePickerDialog(BuildContext context) async {
     final DateTime? pickedDate = await showDatePicker(
@@ -51,7 +53,7 @@ class DatePickerTextField extends StatelessWidget {
       readOnly: true,
       controller: controller,
       textInputAction: TextInputAction.next,
-      textAlign: TextAlign.center,
+      textAlign: align ?? TextAlign.center,
       textAlignVertical: TextAlignVertical.center,
       decoration: decoration ??
           InputDecoration(
