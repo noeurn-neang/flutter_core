@@ -78,7 +78,7 @@ class StringUtils {
   }
 
   static DateTime toDate(String dateStr) {
-    var strArr = dateStr.split(' ');
+    var strArr = dateStr.split(dateStr.contains('T') ? 'T' : ' ');
     var dateStrArr = strArr[0].split('-');
     var hour = 0;
     var min = 0;
