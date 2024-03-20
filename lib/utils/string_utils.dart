@@ -53,7 +53,7 @@ class StringUtils {
 
   static String formatDateTime(DateTime? dateTime) {
     if (dateTime == null) return '';
-    return DateFormat('dd-MMM-y HH:ss').format(dateTime);
+    return DateFormat(Variables.defaultDateTimeFormat).format(dateTime);
   }
 
   static String formatDateDB(String? dateTime) {
@@ -74,7 +74,7 @@ class StringUtils {
 
   static String formatDateTimeDB(String? dateTime) {
     if (dateTime == null) return '';
-    return DateFormat('dd-MMM-y HH:ss').format(toDate(dateTime));
+    return DateFormat(Variables.defaultDateTimeFormat).format(toDate(dateTime));
   }
 
   static DateTime toDate(String dateStr) {
