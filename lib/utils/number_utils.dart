@@ -1,3 +1,5 @@
+import 'string_utils.dart';
+
 double? parseDouble(dynamic data) {
-  return data != null ? double.parse('$data') : null;
+  return StringUtils.isNotNull(data) ? double.parse('$data') : null;
 }

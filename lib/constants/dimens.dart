@@ -8,7 +8,7 @@ class Dimens {
   static const double marginSmall = 5;
   static const double margin = 10;
   static const double marginLarge = 16;
-  static const double marginExtraLarge = 40;
+  static const double marginExtraLarge = 25;
 
   static const double iconSmall = 15;
   static const double icon = 20;

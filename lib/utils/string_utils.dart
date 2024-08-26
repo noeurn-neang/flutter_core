@@ -4,6 +4,8 @@ import 'package:crypto/crypto.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
+import '../configs/variables.dart';
+
 NumberFormat numberFormat =
     NumberFormat.decimalPatternDigits(locale: 'en_US', decimalDigits: 2);
 const String dateFormatDb = 'y-MM-dd';
@@ -45,9 +47,13 @@ class StringUtils {
     return '${currency ?? 'USD'} ${numberFormat.format(amount ??= 0)}';
   }
 
+  static String formatNumber(double? amount) {
+    return numberFormat.format(amount ??= 0);
+  }
+
   static String formatDateTime(DateTime? dateTime) {
     if (dateTime == null) return '';
-    return DateFormat('dd-MMM-y HH:ss').format(dateTime);
+    return DateFormat(Variables.defaultDateTimeFormat).format(dateTime);
   }
 
   static String formatDateDB(String? dateTime) {
@@ -55,18 +61,24 @@ class StringUtils {
     return DateFormat('dd-MMM-y').format(toDate(dateTime));
   }
 
-  static String formatDate(String? dateTime, {String format = 'd-MMM-y'}) {
+  static String formatDate(String? dateTime, {String? format}) {
     if (dateTime == null) return '';
-    return DateFormat(format).format(toDate(dateTime));
+    return DateFormat(format ?? Variables.defaultDateFormat)
+        .format(toDate(dateTime));
+  }
+
+  static String formatFromDate(DateTime? dateTime, {String? format}) {
+    if (dateTime == null) return '';
+    return DateFormat(format ?? Variables.defaultDateFormat).format(dateTime);
   }
 
   static String formatDateTimeDB(String? dateTime) {
     if (dateTime == null) return '';
-    return DateFormat('dd-MMM-y HH:ss').format(toDate(dateTime));
+    return DateFormat(Variables.defaultDateTimeFormat).format(toDate(dateTime));
   }
 
   static DateTime toDate(String dateStr) {
-    var strArr = dateStr.split(' ');
+    var strArr = dateStr.split(dateStr.contains('T') ? 'T' : ' ');
     var dateStrArr = strArr[0].split('-');
     var hour = 0;
     var min = 0;
