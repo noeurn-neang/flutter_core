@@ -14,6 +14,9 @@ void handleRequestError(Response response) {
     if (body != null && (body['success'] == false || body['message'] != null)) {
       messageBody = body['message'];
       showMessage(messageBody, isError: true);
+    } else if (response.statusText != null) {
+      messageBody = response.statusText!;
+      showMessage(messageBody, isError: true);
     } else {
       showMessage('Please check your internet!'.tr, isError: true);
     }

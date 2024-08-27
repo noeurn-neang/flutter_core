@@ -10,6 +10,7 @@ class Variables {
   static String defaultDateFormat = 'd-MMM-y';
   static String defaultDateTimeFormat = 'dd-MMM-y HH:ss';
   static List<LanguageModel> languages = [LanguageModel("en", "us", "English")];
+  static String appVersion = '1.0.0';
 
   static ThemeData themeDataLight = ThemeData(
     colorSchemeSeed: Colors.deepOrange,

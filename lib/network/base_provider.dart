@@ -21,6 +21,7 @@ abstract class BaseProvider extends GetConnect {
     httpClient.addRequestModifier(requestInterceptor);
     httpClient.addResponseModifier(responseInterceptor);
     httpClient.timeout = const Duration(seconds: 30);
+    super.onInit();
   }
 
   FutureOr<Request> requestInterceptor(request) async {
