@@ -44,6 +44,11 @@ class StringUtils {
   }
 
   static String formatMoney(String? currency, double? amount) {
+    if (currency == 'KHR') {
+      NumberFormat numberFormatKHR =
+          NumberFormat.decimalPatternDigits(locale: 'en_US');
+      return '${currency} ${numberFormatKHR.format(amount ??= 0)}';
+    }
     return '${currency ?? 'USD'} ${numberFormat.format(amount ??= 0)}';
   }
 

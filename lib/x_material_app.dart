@@ -43,6 +43,8 @@ class XMaterialApp extends StatelessWidget {
     String localeStr =
         StorageService.getString(StorageItem.locale.toString()) ?? 'en_US';
 
+    print(isDarkMode);
+
     for (var route in AppPages.routes) {
       getPages!.add(route);
     }
