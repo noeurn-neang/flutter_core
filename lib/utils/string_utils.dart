@@ -52,7 +52,13 @@ class StringUtils {
     return '${currency ?? 'USD'} ${numberFormat.format(amount ??= 0)}';
   }
 
-  static String formatNumber(double? amount) {
+  static String formatNumber(double? amount, {int decimalDigits = 2}) {
+    print(decimalDigits);
+    if (decimalDigits == 0) {
+      NumberFormat customNumberFormat =
+          NumberFormat.decimalPatternDigits(locale: 'en_US');
+      return customNumberFormat.format(amount ??= 0);
+    }
     return numberFormat.format(amount ??= 0);
   }
 
