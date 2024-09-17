@@ -9,7 +9,4 @@ TextStyle titleMediumStyle =
 TextStyle titleLargeStyle =
     Theme.of(Get.context!).textTheme.titleLarge!.copyWith(fontSize: 16);
 
-TextStyle formLabelStyle = Theme.of(Get.context!)
-    .textTheme
-    .titleSmall!
-    .copyWith(fontWeight: FontWeight.bold);
+TextStyle formLabelStyle = Theme.of(Get.context!).textTheme.bodyMedium!;
