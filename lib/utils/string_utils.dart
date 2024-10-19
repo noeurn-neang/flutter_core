@@ -47,9 +47,13 @@ class StringUtils {
     if (currency == 'KHR') {
       NumberFormat numberFormatKHR =
           NumberFormat.decimalPatternDigits(locale: 'en_US');
-      return '${currency} ${numberFormatKHR.format(amount ??= 0)}';
+      return '${numberFormatKHR.format(amount ??= 0)}R';
     }
-    return '${currency ?? 'USD'} ${numberFormat.format(amount ??= 0)}';
+
+    if (currency == 'USD') {
+      currency = '\$';
+    }
+    return '${numberFormat.format(amount ??= 0)}${currency ?? '\$'} ';
   }
 
   static String formatNumber(double? amount, {int decimalDigits = 2}) {
