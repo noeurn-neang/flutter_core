@@ -56,6 +56,19 @@ class StringUtils {
     return '${numberFormat.format(amount ??= 0)}${currency ?? '\$'} ';
   }
 
+  static String formatMoneyPrint(String? currency, double? amount) {
+    if (currency == 'KHR') {
+      NumberFormat numberFormatKHR =
+          NumberFormat.decimalPatternDigits(locale: 'en_US');
+      return '${numberFormatKHR.format(amount ??= 0)}រៀល';
+    }
+
+    if (currency == 'USD') {
+      currency = '\$';
+    }
+    return '${numberFormat.format(amount ??= 0)}${currency ?? '\$'} ';
+  }
+
   static String formatNumber(double? amount, {int decimalDigits = 2}) {
     print(decimalDigits);
     if (decimalDigits == 0) {
