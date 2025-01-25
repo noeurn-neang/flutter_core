@@ -25,6 +25,7 @@ apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 
 android {
+    namespace "com.neang.flutter_core"
     compileSdkVersion 31
 
     compileOptions {
