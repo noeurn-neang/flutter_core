@@ -4,32 +4,32 @@ version: 1.0.0
 homepage:
 
 environment:
-  sdk: '>=3.0.6 <4.0.0'
-  flutter: ">=3.3.0"
+  sdk: '>=3.9.0 <4.0.0'
+  flutter: ">=3.35.0"
 
 dependencies:
   flutter:
     sdk: flutter
-  plugin_platform_interface: ^2.0.2
-  get: ^4.6.5
-  get_storage: ^2.0.3
+  plugin_platform_interface: ^2.1.0
+  get: ^4.7.2
+  get_storage: ^2.1.1
   flag: ^6.0.0
   flutter_easyloading: ^3.0.5
   rflutter_alert: ^2.0.7
-  image_picker: ^1.0.5
+  image_picker: ^1.2.0
   crypto: ^3.0.3
-  path_provider: ^2.1.2
+  path_provider: ^2.1.4
   path: ^1.9.0
-  intl: ^0.19.0
-  photo_view: ^0.14.0
-  gallery_saver: ^2.3.2
-  cached_network_image: ^3.3.1
-  package_info_plus: ^5.0.1
+  intl: ^0.20.2
+  photo_view: ^0.15.0
+  gal: ^2.3.2
+  cached_network_image: ^3.4.1
+  package_info_plus: ^8.3.1
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_lints: ^2.0.0
+  flutter_lints: ^6.0.0
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
