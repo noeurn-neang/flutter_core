@@ -12,7 +12,7 @@ void showMessage(String body, {bool isError = false, VoidCallback? onClose}) {
     backgroundColor: isError ? dangerColor : successColor,
     colorText: Colors.white,
     snackbarStatus: (status) {
-      if (status == SnackbarStatus.closed) {
+      if (status == SnackbarStatus.CLOSED) {
         if (onClose != null) {
           onClose();
         }
