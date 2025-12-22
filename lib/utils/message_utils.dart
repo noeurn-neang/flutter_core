@@ -5,26 +5,40 @@ import 'package:rflutter_alert/rflutter_alert.dart';
 
 import '../constants/theme.dart';
 
-void showMessage(String body, {bool isError = false}) {
+void showMessage(String body, {bool isError = false, VoidCallback? onClose}) {
   Get.snackbar(
     isError ? 'Error'.tr : 'Success'.tr,
     body,
     backgroundColor: isError ? dangerColor : successColor,
     colorText: Colors.white,
+    snackbarStatus: (status) {
+      if (status == SnackbarStatus.closed) {
+        if (onClose != null) {
+          onClose();
+        }
+      }
+    },
   );
 }
 
 void showLoading({String? message}) {
   EasyLoading.show(
-      status: message ?? 'Loading...'.tr, maskType: EasyLoadingMaskType.black);
+    status: message ?? 'Loading...'.tr,
+    maskType: EasyLoadingMaskType.black,
+  );
 }
 
 void hideLoading() {
   EasyLoading.dismiss();
 }
 
-void showConfirm(String title, String desc,
-    {Icon? icon, VoidCallback? onConfirm, VoidCallback? onReject}) {
+void showConfirm(
+  String title,
+  String desc, {
+  Icon? icon,
+  VoidCallback? onConfirm,
+  VoidCallback? onReject,
+}) {
   Alert(
     context: Get.context!,
     style: AlertStyle(
@@ -51,15 +65,17 @@ void showConfirm(String title, String desc,
           Navigator.pop(Get.context!);
           if (onConfirm != null) onConfirm();
         },
-        gradient: const LinearGradient(colors: [
-          Color.fromRGBO(116, 116, 191, 1.0),
-          Color.fromRGBO(52, 138, 199, 1.0)
-        ]),
+        gradient: const LinearGradient(
+          colors: [
+            Color.fromRGBO(116, 116, 191, 1.0),
+            Color.fromRGBO(52, 138, 199, 1.0),
+          ],
+        ),
         child: Text(
           "Confirm".tr,
           style: const TextStyle(color: Colors.white, fontSize: 20),
         ),
-      )
+      ),
     ],
   ).show();
 }
