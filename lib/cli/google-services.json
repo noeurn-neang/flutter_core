@@ -1,0 +1,63 @@
+{
+  "project_info": {
+    "project_number": "957681609480",
+    "project_id": "frame-up-4b7e4",
+    "storage_bucket": "frame-up-4b7e4.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:957681609480:android:96ecc1a42ba9691c6e9abd",
+        "android_client_info": {
+          "package_name": "com.direxme.app.frameup"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "957681609480-1bie9m9trij63ig59dfehqo6uacp9dta.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.direxme.app.frameup",
+            "certificate_hash": "74fd76f347eacabb2a9f4e9c28b6fed7d361755a"
+          }
+        },
+        {
+          "client_id": "957681609480-u9cvq364g6sc2ipaj0eikd3rfkggem30.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.direxme.app.frameup",
+            "certificate_hash": "cc14a2670cf7dc9f6d7a0e22c22c2675069d89c7"
+          }
+        },
+        {
+          "client_id": "957681609480-4kd7nhd143vunhbd9aj0aajn5q6md2to.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC-Y6ic0flMquFWb1mYkttRZaSugGQkGlo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "957681609480-4kd7nhd143vunhbd9aj0aajn5q6md2to.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "957681609480-1d0dkihf0afjv32tni6bfpqi420ovonc.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.direxme.app.frameup",
+                "app_store_id": "6756407954"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

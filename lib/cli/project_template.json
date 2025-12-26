@@ -1,0 +1,50 @@
+{
+  "project": {
+    "name": "sharebox",
+    "description": "A new Flutter project",
+    "bundleId": "com.direxme.app.sharebox",
+    "displayName": "Share Box",
+    "platforms": ["android", "ios"]
+  },
+  "firebase": {
+    "android": {
+      "file_path": "sharebox-google-services.json"
+    },
+    "ios": {
+      "file_path": "sharebox-GoogleService-Info.plist"
+    }
+  },
+  "admob": {
+    "android": {
+      "appId": "ca-app-pub-0000000000000000~0000000000",
+      "bannerAdUnitId": "ca-app-pub-0000000000000000/0000000000",
+      "interstitialAdUnitId": "ca-app-pub-0000000000000000/0000000000"
+    },
+    "ios": {
+      "appId": "ca-app-pub-0000000000000000~0000000000",
+      "bannerAdUnitId": "ca-app-pub-0000000000000000/0000000000",
+      "interstitialAdUnitId": "ca-app-pub-0000000000000000/0000000000"
+    }
+  },
+  "app": {
+    "baseUrl": "https://www.sothea.biz/sharebox",
+    "baseApiUrl": "https://www.sothea.biz/sharebox/v1/index.php",
+    "authHeaderKey": "Authorizationgrown",
+    "defaultPassword": "123"
+  },
+  "android": {
+    "signing": {
+      "keyAlias": "upload",
+      "keyPassword": "Knc@168",
+      "storePassword": "Knc@168",
+      "storeFile": "upload-keystore.jks"
+    }
+  },
+  "assets": {
+    "images": [
+      "assets/images/"
+    ],
+    "fonts": []
+  }
+}
+
