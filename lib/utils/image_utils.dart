@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:gal/gal.dart';
 import 'package:image_picker/image_picker.dart';
@@ -81,7 +82,14 @@ void previewImage({required BuildContext context, required String imageUrl}) {
                 decoration: const BoxDecoration(color: Colors.black),
                 width: double.infinity,
                 child: Center(
-                  child: PhotoView(imageProvider: NetworkImage(imageUrl)),
+                  child: PhotoView(
+                    imageProvider: CachedNetworkImageProvider(
+                      imageUrl,
+                      maxWidth: 2400,
+                      maxHeight: 2400,
+                    ),
+                    filterQuality: FilterQuality.high,
+                  ),
                 ),
               ),
               Row(

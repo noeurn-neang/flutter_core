@@ -58,8 +58,9 @@ class XMaterialApp extends StatelessWidget {
           fallbackLocale ?? getLocaleFromString(Variables.defaultLocaleCode),
       debugShowCheckedModeBanner: false,
       builder: builder ?? EasyLoading.init(),
-      themeMode: themeMode,
-      theme: isDarkMode ? Variables.themeDataDark : Variables.themeDataLight,
+      themeMode: isDarkMode ? ThemeMode.dark : ThemeMode.light,
+      theme: Variables.themeDataLight,
+      darkTheme: Variables.themeDataDark,
     );
   }
 }
