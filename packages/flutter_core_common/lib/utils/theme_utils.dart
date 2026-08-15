@@ -25,15 +25,33 @@ void applyOverlayTheme({bool? isDark}) {
   final scheme = theme.colorScheme;
 
   EasyLoading.instance
-    ..displayDuration = const Duration(milliseconds: 2000)
-    ..indicatorType = EasyLoadingIndicatorType.fadingCircle
     ..loadingStyle = EasyLoadingStyle.custom
-    ..indicatorSize = 45
-    ..radius = 12
-    ..backgroundColor = scheme.surfaceContainerHighest
+    ..indicatorWidget = SizedBox(
+      width: 36,
+      height: 36,
+      child: CircularProgressIndicator(
+        strokeWidth: 3,
+        strokeCap: StrokeCap.round,
+        color: scheme.primary,
+      ),
+    )
+    ..indicatorSize = 36
+    ..radius = 20
+    ..fontSize = 14
+    ..contentPadding = const EdgeInsets.symmetric(horizontal: 28, vertical: 22)
+    ..backgroundColor = scheme.surfaceContainerHigh
     ..indicatorColor = scheme.primary
     ..textColor = scheme.onSurface
-    ..maskColor = scheme.scrim.withValues(alpha: 0.45)
-    ..userInteractions = true
+    ..maskType = EasyLoadingMaskType.custom
+    ..maskColor = scheme.scrim.withValues(alpha: 0.32)
+    ..boxShadow = [
+      BoxShadow(
+        color: scheme.shadow.withValues(alpha: 0.16),
+        blurRadius: 28,
+        offset: const Offset(0, 10),
+      ),
+    ]
+    ..animationStyle = EasyLoadingAnimationStyle.scale
+    ..userInteractions = false
     ..dismissOnTap = false;
 }

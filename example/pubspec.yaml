@@ -1,16 +1,37 @@
 name: flutter_core_example
-description: Demonstrates flutter_core (full / main).
-publish_to: 'none'
+description: Demonstrates flutter_core (common + extras).
+publish_to: none
 
 environment:
   sdk: ^3.13.0
   flutter: ">=3.47.0"
 
+resolution: workspace
+
 dependencies:
   flutter:
     sdk: flutter
+
+  # Local (this repo)
   flutter_core:
-    path: ../
+    path: ../packages/flutter_core
+
+  # GitHub (full package, includes common)
+  # flutter_core:
+  #   git:
+  #     url: https://github.com/noeurn-neang/flutter_core.git
+  #     path: packages/flutter_core
+  #     ref: main            # or a tag like 2.0.0
+  #     # ref: your-branch   # custom branch
+
+  # GitHub (basic only — no camera / gallery / countries)
+  # flutter_core_common:
+  #   git:
+  #     url: https://github.com/noeurn-neang/flutter_core.git
+  #     path: packages/flutter_core_common
+  #     ref: main
+  #     # ref: your-branch
+
 
 dev_dependencies:
   flutter_test:

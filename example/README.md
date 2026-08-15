@@ -1,12 +1,12 @@
-# Example (full / `main`)
+# Example
 
-Catalog of every `flutter_core` API: init, theme, locale, overlays, forms,
-avatar display/update, auth session, HTTP, and utils.
+Catalog of `flutter_core` (common + extras): theme, locale, overlays, forms,
+country select, avatar update, auth, and HTTP.
 
 ```sh
 cd example
-flutter run                 # device / simulator
-flutter run -d chrome       # web
+flutter run
+flutter run -d chrome
 ```
 
-Requires Flutter 3.47. Basic-only apps should depend on `ref: common` instead.
+Requires Flutter 3.47. Basic-only apps should depend on `flutter_core_common`.

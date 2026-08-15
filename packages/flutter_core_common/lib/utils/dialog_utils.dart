@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../constants/dimens.dart';
+
 class SelectionItem {
   const SelectionItem({
     required this.id,
@@ -28,7 +30,7 @@ class DialogUtils {
       builder: (ctx) {
         return Padding(
           padding: EdgeInsets.only(
-            bottom: MediaQuery.viewInsetsOf(ctx).bottom,
+            bottom: MediaQuery.viewInsetsOf(ctx).bottom + Dimens.marginExtraLarge,
           ),
           child: ConstrainedBox(
             constraints: BoxConstraints(

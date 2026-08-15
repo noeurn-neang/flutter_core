@@ -226,9 +226,8 @@ class _CatalogPageState extends State<CatalogPage>
           Dimens.vmm,
           TimePickerTextField(title: 'Time', controller: _time),
           Dimens.vmm,
-          SelectOption(
+          CountrySelect(
             title: 'Country',
-            type: SelectOptionDataType.country,
             controller: _country,
           ),
           Dimens.vmm,

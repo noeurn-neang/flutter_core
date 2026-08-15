@@ -29,7 +29,7 @@ void showMessage(String body, {bool isError = false, VoidCallback? onClose}) {
 
 void showLoading({String? message}) {
   EasyLoading.show(
-    status: message ?? 'Loading...'.tr,
+    status: message,
     maskType: EasyLoadingMaskType.custom,
   );
 }
@@ -51,6 +51,7 @@ Future<bool?> showCoreConfirm(
       return AlertDialog(
         title: Text(title),
         content: Text(desc),
+        actionsAlignment: MainAxisAlignment.spaceBetween,
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(ctx, false),

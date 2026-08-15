@@ -1,12 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:flutter_core_common/flutter_core_common.dart';
 import 'package:image_picker/image_picker.dart';
 
-import '../config/flutter_core_config.dart';
-import '../constants/dimens.dart';
 import '../utils/image_utils.dart';
-import 'buttons/icon_circle_button.dart';
-import 'circle_image.dart';
 
 class ProfilePicture extends StatelessWidget {
   ProfilePicture({

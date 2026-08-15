@@ -2,7 +2,7 @@ final List<Map<String, String>> countries = [
   {"label": "Afghanistan", "code": "AF"},
   {"label": "Albania", "code": "AL"},
   {"label": "Algeria", "code": "DZ"},
-  {"label": "AndorrA", "code": "AD"},
+  {"label": "Andorra", "code": "AD"},
   {"label": "Angola", "code": "AO"},
   {"label": "Argentina", "code": "AR"},
   {"label": "Armenia", "code": "AM"},

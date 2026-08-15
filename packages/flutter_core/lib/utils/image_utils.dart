@@ -1,16 +1,11 @@
 import 'dart:convert';
-import 'dart:io';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_core_common/flutter_core_common.dart';
 import 'package:gal/gal.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:path/path.dart' as path;
-import 'package:path_provider/path_provider.dart';
 import 'package:photo_view/photo_view.dart';
-
-import '../getx.dart';
-import 'message_utils.dart';
 
 Future<String> convertXFileToBase64(XFile file) async {
   final fileBytes = await file.readAsBytes();
@@ -18,13 +13,11 @@ Future<String> convertXFileToBase64(XFile file) async {
 }
 
 Future<XFile> convertUint8ListToXFile(Uint8List uint8List) async {
-  final appSupportDir = await getApplicationSupportDirectory();
-  final fileName = path.basenameWithoutExtension(
-    DateTime.now().toIso8601String(),
+  return XFile.fromData(
+    uint8List,
+    mimeType: 'image/png',
+    name: '${DateTime.now().millisecondsSinceEpoch}.png',
   );
-  final filePath = path.join(appSupportDir.path, '$fileName.png');
-  await File(filePath).writeAsBytes(uint8List);
-  return XFile(filePath);
 }
 
 Future<void> downloadImage(String imageUrl) async {

@@ -1,10 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../constants/countries.dart';
 import '../../utils/dialog_utils.dart';
-import '../../utils/translate_utils.dart';
-
-enum SelectOptionDataType { country, general }
 
 class SelectOptionController extends TextEditingController {
   Map<String, dynamic>? selected;
@@ -23,11 +19,11 @@ class SelectOption extends StatelessWidget {
     this.controller,
     this.border,
     this.icon,
-    this.type = SelectOptionDataType.general,
     this.labelKey = 'label',
     this.valueKey = 'code',
     this.validator,
     this.items = const [],
+    this.itemIcon,
   });
 
   final String? title;
@@ -35,32 +31,30 @@ class SelectOption extends StatelessWidget {
   final SelectOptionController? controller;
   final InputBorder? border;
   final Widget? icon;
-  final SelectOptionDataType type;
   final String labelKey;
   final String valueKey;
   final FormFieldValidator<String>? validator;
   final List<Map<String, dynamic>> items;
+  final Widget Function(Map<String, dynamic> item)? itemIcon;
 
   Future<void> _openPicker(BuildContext context) async {
-    final source = type == SelectOptionDataType.country ? countries : items;
+    if (items.isEmpty) return;
     final selectedId = '${controller?.selected?[valueKey] ?? ''}';
     await DialogUtils.showSelection(
       context,
-      source
+      items
           .map(
             (item) => SelectionItem(
               id: '${item[valueKey]}',
               name: '${item[labelKey]}',
-              icon: type == SelectOptionDataType.country
-                  ? getFlagCountryCode('${item[valueKey]}')
-                  : null,
+              icon: itemIcon?.call(item),
             ),
           )
           .toList(),
       title: title ?? 'Select',
       selectedId: selectedId,
       onItemSelected: (id) {
-        final match = source.firstWhere((item) => '${item[valueKey]}' == id);
+        final match = items.firstWhere((item) => '${item[valueKey]}' == id);
         controller?.setSelected(match, labelKey);
       },
     );
