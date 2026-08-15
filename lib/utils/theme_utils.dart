@@ -3,13 +3,16 @@ import 'dart:io';
 import 'package:flutter/services.dart';
 
 import '../constants/common.dart';
-import '../services/index.dart';
+import '../services/storage_service.dart';
 
-refreshStatusBarBrightness() {
-  bool isDarkMode =
-      StorageService.getBool(StorageItem.isDarkMode.toString()) ?? false;
-  Brightness brightness =
-      isDarkMode && Platform.isIOS ? Brightness.dark : Brightness.light;
-  SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-      statusBarBrightness: brightness, statusBarIconBrightness: brightness));
+void refreshStatusBarBrightness() {
+  final isDarkMode = StorageService.getBool(StorageItem.isDarkMode) ?? false;
+  final overlay = isDarkMode
+      ? SystemUiOverlayStyle.light.copyWith(
+          statusBarBrightness: Platform.isIOS ? Brightness.dark : Brightness.light,
+        )
+      : SystemUiOverlayStyle.dark.copyWith(
+          statusBarBrightness: Platform.isIOS ? Brightness.light : Brightness.dark,
+        );
+  SystemChrome.setSystemUIOverlayStyle(overlay);
 }

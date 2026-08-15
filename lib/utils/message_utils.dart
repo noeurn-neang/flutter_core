@@ -1,21 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
-import 'package:rflutter_alert/rflutter_alert.dart';
-
-import '../constants/theme.dart';
 
 void showMessage(String body, {bool isError = false, VoidCallback? onClose}) {
+  final context = Get.context;
+  final scheme = context != null ? Theme.of(context).colorScheme : null;
   Get.snackbar(
     isError ? 'Error'.tr : 'Success'.tr,
     body,
-    backgroundColor: isError ? dangerColor : successColor,
-    colorText: Colors.white,
+    backgroundColor: isError
+        ? (scheme?.error ?? Colors.red)
+        : (scheme?.primary ?? Colors.green),
+    colorText: isError
+        ? (scheme?.onError ?? Colors.white)
+        : (scheme?.onPrimary ?? Colors.white),
     snackbarStatus: (status) {
       if (status == SnackbarStatus.CLOSED) {
-        if (onClose != null) {
-          onClose();
-        }
+        onClose?.call();
       }
     },
   );
@@ -32,6 +33,34 @@ void hideLoading() {
   EasyLoading.dismiss();
 }
 
+Future<bool?> showCoreConfirm(
+  BuildContext context, {
+  required String title,
+  required String desc,
+  String? confirmLabel,
+  String? cancelLabel,
+}) {
+  return showAdaptiveDialog<bool>(
+    context: context,
+    builder: (ctx) {
+      return AlertDialog.adaptive(
+        title: Text(title),
+        content: Text(desc),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(ctx, false),
+            child: Text(cancelLabel ?? 'Cancel'.tr),
+          ),
+          TextButton(
+            onPressed: () => Navigator.pop(ctx, true),
+            child: Text(confirmLabel ?? 'Confirm'.tr),
+          ),
+        ],
+      );
+    },
+  );
+}
+
 void showConfirm(
   String title,
   String desc, {
@@ -39,43 +68,13 @@ void showConfirm(
   VoidCallback? onConfirm,
   VoidCallback? onReject,
 }) {
-  Alert(
-    context: Get.context!,
-    style: AlertStyle(
-      descStyle: Theme.of(Get.context!).textTheme.bodyLarge!,
-      titleStyle: Theme.of(Get.context!).textTheme.titleLarge!,
-    ),
-    title: title,
-    desc: desc,
-    image: icon,
-    buttons: [
-      DialogButton(
-        onPressed: () {
-          Navigator.pop(Get.context!);
-          if (onReject != null) onReject();
-        },
-        color: const Color.fromRGBO(0, 179, 134, 1.0),
-        child: Text(
-          "Cancel".tr,
-          style: const TextStyle(color: Colors.white, fontSize: 20),
-        ),
-      ),
-      DialogButton(
-        onPressed: () {
-          Navigator.pop(Get.context!);
-          if (onConfirm != null) onConfirm();
-        },
-        gradient: const LinearGradient(
-          colors: [
-            Color.fromRGBO(116, 116, 191, 1.0),
-            Color.fromRGBO(52, 138, 199, 1.0),
-          ],
-        ),
-        child: Text(
-          "Confirm".tr,
-          style: const TextStyle(color: Colors.white, fontSize: 20),
-        ),
-      ),
-    ],
-  ).show();
+  final context = Get.context;
+  if (context == null) return;
+  showCoreConfirm(context, title: title, desc: desc).then((confirmed) {
+    if (confirmed == true) {
+      onConfirm?.call();
+    } else {
+      onReject?.call();
+    }
+  });
 }

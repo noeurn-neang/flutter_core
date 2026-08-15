@@ -17,19 +17,20 @@ abstract class BaseAuthManager extends GetxController with CacheManagerMixin {
     });
   }
 
-  void logOut() async {
+  Future<void> logOut() async {
     removeAuthState();
     await removeToken();
     await removeUser();
     redirectAfterLoggedOut();
   }
 
-  void login(Map<String, dynamic> response) async {
-    var tokenStr = response['access_token'];
-    var userJson = response['user'];
-    setAuthState(userJson);
-    saveToCache(tokenStr, userJson);
-    // saveDeviceToken();
+  Future<void> login({
+    required Map<String, dynamic> user,
+    String? token,
+  }) async {
+    setAuthState(user);
+    await saveUser(json.encode(user));
+    if (token != null) await saveToken(token);
     redirectAfterLoggedIn();
   }
 
@@ -37,27 +38,19 @@ abstract class BaseAuthManager extends GetxController with CacheManagerMixin {
 
   void redirectAfterLoggedOut();
 
-  void setAuthState(userJson);
+  void setAuthState(dynamic userJson);
 
   void removeAuthState();
-
-  void saveToCache(tokenStr, userJson) async {
-    await saveUser(json.encode(userJson));
-    if (tokenStr != null) await saveToken(tokenStr);
-
-    // var expiredDt = DateTime.now().add(const Duration(hours: 1));
-    // await saveExpiredDt(expiredDt.toString());
-  }
 
   Future<void> checkLoginStatus() async {
     final token = getToken();
     if (token != null) {
       try {
-        var userStr = getUser();
+        final userStr = getUser();
         setAuthState(json.decode(userStr!));
         redirectAfterLoggedIn();
-      } catch (e) {
-        logOut();
+      } catch (_) {
+        await logOut();
       }
     } else {
       redirectAfterLoggedOut();

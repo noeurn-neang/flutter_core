@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
 
-import '../configs/variables.dart';
+import '../config/flutter_core_config.dart';
 import '../mixins/cache_manager_mixin.dart';
 import '../utils/dialog_utils.dart';
 import '../utils/theme_utils.dart';
@@ -8,16 +8,13 @@ import '../utils/translate_utils.dart';
 
 class BaseSettingsController extends GetxController with CacheManagerMixin {
   var isDarkMode = false.obs;
-  final locale = Variables.defaultLocaleCode.obs;
-
-  BaseSettingsController();
+  final locale = FlutterCoreConfig.current.defaultLocaleCode.obs;
 
   @override
   void onInit() {
     super.onInit();
-
     isDarkMode.value = getIsDarkMode() ?? false;
-    locale.value = getLocale() ?? Variables.defaultLocaleCode;
+    locale.value = getLocale() ?? FlutterCoreConfig.current.defaultLocaleCode;
   }
 
   void handleChangeLanguage() {
@@ -28,29 +25,38 @@ class BaseSettingsController extends GetxController with CacheManagerMixin {
     isDarkMode.value = !isDarkMode.value;
     saveIsDarkMode(isDarkMode.value);
     Get.changeTheme(
-        isDarkMode.value ? Variables.themeDataDark : Variables.themeDataLight);
+      isDarkMode.value
+          ? FlutterCoreConfig.current.themeDataDark
+          : FlutterCoreConfig.current.themeDataLight,
+    );
     refreshStatusBarBrightness();
     Get.forceAppUpdate();
   }
 
-  showLanguageDialog() {
-    var list = Variables.languages
-        .map((element) => ({
-              'id':
-                  '${element.languageCode}_${element.countryCode.toUpperCase()}',
-              'name': element.title,
-              'icon': getFlagFromLocale(
-                  '${element.languageCode}_${element.countryCode.toUpperCase()}')
-            }))
+  Future<void> showLanguageDialog() async {
+    final context = Get.context;
+    if (context == null) return;
+
+    final list = FlutterCoreConfig.current.languages
+        .map(
+          (element) => SelectionItem(
+            id: element.localeCode,
+            name: element.title,
+            icon: getFlagFromLocale(element.localeCode),
+          ),
+        )
         .toList();
 
-    DialogUtils.showSelection(Get.context!, list,
-        title: 'Select Language'.tr,
-        selectedId: locale.value, onItemSelected: (dynamic newLocale) {
-      locale.value = newLocale;
-      saveLocale(newLocale);
-      Get.updateLocale(getLocaleFromString(newLocale));
-      Get.back();
-    });
+    await DialogUtils.showSelection(
+      context,
+      list,
+      title: 'Select Language'.tr,
+      selectedId: locale.value,
+      onItemSelected: (newLocale) {
+        locale.value = newLocale;
+        saveLocale(newLocale);
+        Get.updateLocale(getLocaleFromString(newLocale));
+      },
+    );
   }
 }

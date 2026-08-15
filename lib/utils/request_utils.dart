@@ -6,25 +6,25 @@ import 'message_utils.dart';
 void handleRequestError(Response response) {
   try {
     final body = response.body;
-    String messageBody = '';
     if (kDebugMode) {
-      print('Error Body: $body');
+      debugPrint('Error Body: $body');
     }
 
-    if (body != null && (body['success'] == false || body['message'] != null)) {
-      messageBody = body['message'];
-      showMessage(messageBody, isError: true);
-    } else if (response.statusText != null) {
-      messageBody = response.statusText!;
-      showMessage(messageBody, isError: true);
-    } else {
-      showMessage('Please check your internet!'.tr, isError: true);
+    String? messageBody;
+    if (body is Map && (body['success'] == false || body['message'] != null)) {
+      messageBody = body['message']?.toString();
+    } else if (response.statusText != null && response.statusText!.isNotEmpty) {
+      messageBody = response.statusText;
     }
+
+    showMessage(
+      messageBody ?? 'Please check your internet!'.tr,
+      isError: true,
+    );
   } catch (e) {
     if (kDebugMode) {
-      print('Error Body: $e');
+      debugPrint('Error Body: $e');
     }
-
-    showMessage(response.body, isError: true);
+    showMessage('Please check your internet!'.tr, isError: true);
   }
 }

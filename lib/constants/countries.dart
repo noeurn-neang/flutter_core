@@ -1,6 +1,4 @@
-import 'package:get/get.dart';
-
-var countries = [
+final List<Map<String, String>> countries = [
   {"label": "Afghanistan", "code": "AF"},
   {"label": "Albania", "code": "AL"},
   {"label": "Algeria", "code": "DZ"},
@@ -184,7 +182,12 @@ var countries = [
   {"label": "Zimbabwe", "code": "ZW"},
 ];
 
-getCountryByName(String name) {
-  return countries.firstWhereOrNull(
-      (element) => element['label']!.toLowerCase() == name.toLowerCase());
+Map<String, String>? getCountryByName(String name) {
+  for (final element in countries) {
+    if (element['label']!.toLowerCase() == name.toLowerCase()) {
+      return element;
+    }
+  }
+  return null;
 }
+

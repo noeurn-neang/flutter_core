@@ -14,22 +14,14 @@ class CircleIconButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ElevatedButton(
+    final scheme = Theme.of(context).colorScheme;
+    return IconButton.filled(
       onPressed: onPressed,
-      style: ButtonStyle(
-        shape: WidgetStateProperty.all(const CircleBorder()),
-        padding: WidgetStateProperty.all(const EdgeInsets.all(5)),
-        backgroundColor: WidgetStateProperty.all(
-          backgroundColor ?? Colors.white,
-        ), // <-- Button color
-        overlayColor: WidgetStateProperty.resolveWith<Color?>((states) {
-          if (states.contains(WidgetState.pressed)) {
-            return Theme.of(context).highlightColor; // <-- Splash color
-          }
-          return null;
-        }),
+      style: IconButton.styleFrom(
+        backgroundColor: backgroundColor ?? scheme.surface,
+        foregroundColor: scheme.onSurface,
       ),
-      child: icon,
+      icon: icon,
     );
   }
 }

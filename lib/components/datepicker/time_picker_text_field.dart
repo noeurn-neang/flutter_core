@@ -4,55 +4,60 @@ import 'package:get/get.dart';
 import '../../utils/string_utils.dart';
 
 class TimePickerTextField extends StatelessWidget {
+  const TimePickerTextField({
+    super.key,
+    this.title,
+    this.enabled = true,
+    this.validator,
+    this.controller,
+    this.border,
+    this.icon,
+    this.decoration,
+  });
+
   final String? title;
-  final bool? enabled;
+  final bool enabled;
   final FormFieldValidator<String>? validator;
   final TextEditingController? controller;
   final InputBorder? border;
   final Widget? icon;
   final InputDecoration? decoration;
 
-  const TimePickerTextField(
-      {super.key,
-      this.title,
-      this.enabled,
-      this.validator,
-      this.controller,
-      this.border,
-      this.icon,
-      this.decoration});
+  Future<void> showTimePickerDialog(BuildContext context) async {
+    TimeOfDay initial = TimeOfDay.now();
+    if (StringUtils.isNotBlank(controller?.text)) {
+      try {
+        initial = StringUtils.toTime(controller!.text);
+      } catch (_) {}
+    }
 
-  Future<void> showDatePickerDialog(BuildContext context) async {
-    final TimeOfDay? pickedDate = await showTimePicker(
-        context: context,
-        initialTime: StringUtils.isNotNull(controller!.text)
-            ? StringUtils.toTime(controller!.text)
-            : TimeOfDay.now(),
-        cancelText: 'Cancel'.tr,
-        confirmText: 'Ok'.tr);
+    final picked = await showTimePicker(
+      context: context,
+      initialTime: initial,
+      cancelText: 'Cancel'.tr,
+      confirmText: 'Ok'.tr,
+    );
 
-    if (pickedDate != null && controller != null) {
-      controller!.text = pickedDate.format(Get.context!);
+    if (picked != null && controller != null && context.mounted) {
+      controller!.text = picked.format(context);
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
-      onTap: () {
-        showDatePickerDialog(context);
-      },
+      onTap: enabled ? () => showTimePickerDialog(context) : null,
       validator: validator,
       enabled: enabled,
       readOnly: true,
       controller: controller,
       textInputAction: TextInputAction.next,
-      textAlignVertical: TextAlignVertical.center,
       decoration: decoration ??
           InputDecoration(
-            border: border ?? const UnderlineInputBorder(),
+            border: border ?? const OutlineInputBorder(),
             labelText: title,
             icon: icon,
+            suffixIcon: const Icon(Icons.schedule),
           ),
     );
   }

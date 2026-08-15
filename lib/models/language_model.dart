@@ -1,11 +1,14 @@
 class LanguageModel {
-  LanguageModel(
-    this.languageCode,
-    this.countryCode,
-    this.title,
-  );
+  const LanguageModel({
+    required this.languageCode,
+    required this.countryCode,
+    required this.title,
+  });
 
-  String languageCode;
-  String countryCode;
-  String title;
+  final String languageCode;
+  final String countryCode;
+  final String title;
+
+  String get localeCode =>
+      '${languageCode}_${countryCode.toUpperCase()}';
 }

@@ -1,65 +1,67 @@
 import 'package:flutter/material.dart';
-import 'package:get/utils.dart';
+import 'package:get/get.dart';
 
-import '../../utils/string_utils.dart';
+import '../../utils/date_formats.dart';
 
 class DatePickerTextField extends StatelessWidget {
+  const DatePickerTextField({
+    super.key,
+    this.title,
+    this.enabled = true,
+    this.validator,
+    this.controller,
+    this.border,
+    this.icon,
+    this.decoration,
+    this.align,
+    this.firstDate,
+    this.lastDate,
+  });
+
   final String? title;
-  final bool? enabled;
+  final bool enabled;
   final FormFieldValidator<String>? validator;
   final TextEditingController? controller;
   final InputBorder? border;
   final Widget? icon;
   final InputDecoration? decoration;
   final TextAlign? align;
-
-  const DatePickerTextField(
-      {super.key,
-      this.title,
-      this.enabled,
-      this.validator,
-      this.controller,
-      this.border,
-      this.icon,
-      this.decoration,
-      this.align});
+  final DateTime? firstDate;
+  final DateTime? lastDate;
 
   Future<void> showDatePickerDialog(BuildContext context) async {
-    final DateTime? pickedDate = await showDatePicker(
-        context: context,
-        initialDate: StringUtils.isNotNull(controller!.text)
-            ? StringUtils.toDate(controller!.text)
-            : DateTime.now(),
-        firstDate:
-            DateTime.now().subtract(const Duration(days: 365 * 10)), // 10 years
-        lastDate: DateTime.now().add(const Duration(days: 365 * 5)), // 1 year
-        cancelText: 'Cancel'.tr,
-        confirmText: 'Ok'.tr,
-        fieldLabelText: 'Select Date'.tr);
+    final parsed = DateFormats.tryParse(controller?.text);
+    final pickedDate = await showDatePicker(
+      context: context,
+      initialDate: parsed ?? DateTime.now(),
+      firstDate: firstDate ?? DateTime.now().subtract(const Duration(days: 365 * 10)),
+      lastDate: lastDate ?? DateTime.now().add(const Duration(days: 365 * 5)),
+      cancelText: 'Cancel'.tr,
+      confirmText: 'Ok'.tr,
+      fieldLabelText: 'Select Date'.tr,
+    );
 
     if (pickedDate != null && controller != null) {
-      controller!.text = "${pickedDate.toLocal()}".split(' ')[0];
+      controller!.text = DateFormats.format(pickedDate);
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
-      onTap: () {
-        showDatePickerDialog(context);
-      },
+      onTap: enabled ? () => showDatePickerDialog(context) : null,
       validator: validator,
       enabled: enabled,
       readOnly: true,
       controller: controller,
       textInputAction: TextInputAction.next,
-      textAlign: align ?? TextAlign.center,
-      textAlignVertical: TextAlignVertical.center,
+      textAlign: align ?? TextAlign.start,
       decoration: decoration ??
           InputDecoration(
-            border: border ?? const UnderlineInputBorder(),
+            border: border ?? const OutlineInputBorder(),
             labelText: title,
             icon: icon,
+            suffixIcon: const Icon(Icons.calendar_today_outlined),
           ),
     );
   }

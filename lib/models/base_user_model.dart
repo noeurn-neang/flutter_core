@@ -1,22 +1,18 @@
-abstract class BaseUserModel {
-  int? id;
-  String? email;
-
+class BaseUserModel {
   BaseUserModel({
     this.id,
     this.email,
   });
 
-  BaseUserModel.fromJson(Map<String, dynamic> json) {
-    var employee = json['employee'];
-    id = json['id'];
-    email = employee['email'];
-  }
+  int? id;
+  String? email;
 
-  Map<String, dynamic> toJson() {
-    final data = <String, dynamic>{};
-    data['id'] = id;
-    data['email'] = email;
-    return data;
-  }
+  BaseUserModel.fromJson(Map<String, dynamic> json)
+      : id = json['id'] as int?,
+        email = json['email'] as String?;
+
+  Map<String, dynamic> toJson() => {
+        'id': id,
+        'email': email,
+      };
 }

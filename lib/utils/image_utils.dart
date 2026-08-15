@@ -13,105 +13,50 @@ import '../getx.dart';
 import 'message_utils.dart';
 
 Future<String> convertXFileToBase64(XFile file) async {
-  // Read the file as bytes
-  List<int> fileBytes = await file.readAsBytes();
-
-  // Convert bytes to base64 string
-  String base64String = base64Encode(fileBytes);
-
-  return base64String;
+  final fileBytes = await file.readAsBytes();
+  return base64Encode(fileBytes);
 }
 
 Future<XFile> convertUint8ListToXFile(Uint8List uint8List) async {
-  // Get the application support directory
-  Directory appSupportDir = await getApplicationSupportDirectory();
-  String appSupportPath = appSupportDir.path;
-
-  // Generate a unique file name
-  String fileName = path.basenameWithoutExtension(
+  final appSupportDir = await getApplicationSupportDirectory();
+  final fileName = path.basenameWithoutExtension(
     DateTime.now().toIso8601String(),
-  ); // Generate a unique file name using DateTime
-
-  // Construct the file path
-  String filePath = path.join(appSupportPath, '$fileName.png');
-
-  // Write the Uint8List data to the file
+  );
+  final filePath = path.join(appSupportDir.path, '$fileName.png');
   await File(filePath).writeAsBytes(uint8List);
-
-  // Create an XFile object from the file path
-  XFile xFile = XFile(filePath);
-
-  return xFile;
+  return XFile(filePath);
 }
 
-void downloadImage(String imageUrl) async {
+Future<void> downloadImage(String imageUrl) async {
   showLoading();
   try {
     await Gal.putImage(imageUrl);
     hideLoading();
-    Get.snackbar(
-      'Image Saved'.tr,
-      'Image saved to gallery'.tr,
-      colorText: Colors.white,
-      snackPosition: SnackPosition.BOTTOM,
-    );
-  } catch (e) {
+    showMessage('Image saved to gallery'.tr);
+  } catch (_) {
     hideLoading();
-    Get.snackbar(
-      'Something went wrong!'.tr,
-      'Try again later.'.tr,
-      colorText: Colors.white,
-      snackPosition: SnackPosition.BOTTOM,
-    );
+    showMessage('Try again later.'.tr, isError: true);
   }
 }
 
 void previewImage({required BuildContext context, required String imageUrl}) {
-  var shadows = <Shadow>[const Shadow(color: Colors.black, blurRadius: 15.0)];
   showDialog<void>(
     context: context,
     builder: (context) => Dialog.fullscreen(
       backgroundColor: Colors.black,
-      child: Padding(
-        padding: const EdgeInsets.all(20.0),
-        child: Scaffold(
-          body: Stack(
-            children: [
-              Container(
-                decoration: const BoxDecoration(color: Colors.black),
-                width: double.infinity,
-                child: Center(
-                  child: PhotoView(imageProvider: NetworkImage(imageUrl)),
-                ),
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  IconButton(
-                    onPressed: () {
-                      Get.back();
-                    },
-                    icon: Icon(
-                      shadows: shadows,
-                      Icons.arrow_back,
-                      color: Colors.white,
-                    ),
-                  ),
-                  IconButton(
-                    onPressed: () {
-                      downloadImage(imageUrl);
-                    },
-                    icon: Icon(
-                      shadows: shadows,
-                      Icons.download,
-                      color: Colors.white,
-                    ),
-                  ),
-                ],
-              ),
-            ],
-          ),
+      child: Scaffold(
+        backgroundColor: Colors.black,
+        appBar: AppBar(
+          backgroundColor: Colors.black,
+          foregroundColor: Colors.white,
+          actions: [
+            IconButton(
+              onPressed: () => downloadImage(imageUrl),
+              icon: const Icon(Icons.download),
+            ),
+          ],
         ),
+        body: PhotoView(imageProvider: NetworkImage(imageUrl)),
       ),
     ),
   );

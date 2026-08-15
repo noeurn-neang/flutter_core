@@ -1,87 +1,27 @@
 import '../constants/common.dart';
-import '../services/index.dart';
+import '../services/storage_service.dart';
 
 mixin CacheManagerMixin {
-  Future<bool> saveToken(String? token) async {
-    StorageService.write(StorageItem.token.toString(), token);
-    return true;
-  }
+  Future<void> saveToken(String? token) => StorageService.saveToken(token);
 
-  String? getToken() {
-    return StorageService.getString(StorageItem.token.toString());
-  }
+  String? getToken() => StorageService.token;
 
-  Future<void> removeToken() async {
-    return await StorageService.remove(StorageItem.token.toString());
-  }
+  Future<void> removeToken() => StorageService.remove(StorageItem.token);
 
-  Future<bool> saveUser(String user) async {
-    StorageService.write(StorageItem.user.toString(), user);
-    return true;
-  }
+  Future<void> saveUser(String user) => StorageService.saveUser(user);
 
-  String? getUser() {
-    return StorageService.getString(StorageItem.user.toString());
-  }
+  String? getUser() => StorageService.user;
 
-  Future<void> removeUser() async {
-    return await StorageService.remove(StorageItem.user.toString());
-  }
+  Future<void> removeUser() => StorageService.remove(StorageItem.user);
 
-  Future<bool> saveExpiredDt(String expireDate) async {
-    StorageService.write(StorageItem.expiredDt.toString(), expireDate);
-    return true;
-  }
+  Future<void> saveLocale(String locale) => StorageService.saveLocale(locale);
 
-  String? getExpiredDt() {
-    return StorageService.getString(StorageItem.expiredDt.toString());
-  }
+  String? getLocale() => StorageService.locale;
 
-  Future<void> removeExpiredDt() async {
-    return await StorageService.remove(StorageItem.expiredDt.toString());
-  }
+  Future<void> saveIsDarkMode(bool isDarkMode) =>
+      StorageService.saveIsDarkMode(isDarkMode);
 
-  Future<bool> saveLanguages(String languages) async {
-    StorageService.write(StorageItem.languages.toString(), languages);
-    return true;
-  }
+  bool? getIsDarkMode() => StorageService.isDarkMode;
 
-  String? getLanguages() {
-    return StorageService.getString(StorageItem.languages.toString());
-  }
-
-  Future<void> removeLanguages() async {
-    return await StorageService.remove(StorageItem.languages.toString());
-  }
-
-  Future<bool> saveIsDarkMode(bool? isDarkMode) async {
-    StorageService.write(StorageItem.isDarkMode.toString(), isDarkMode);
-    return true;
-  }
-
-  Future<bool> saveLocale(String locale) async {
-    StorageService.write(StorageItem.locale.toString(), locale);
-    return true;
-  }
-
-  bool? getIsDarkMode() {
-    return StorageService.getBool(StorageItem.isDarkMode.toString());
-  }
-
-  String? getLocale() {
-    return StorageService.getString(StorageItem.locale.toString());
-  }
-
-  Future<void> clearCache() async {
-    return await StorageService.clear();
-  }
-
-  Future<bool> saveDefaultCurrency(String currency) async {
-    StorageService.write(StorageItem.defaultCurrency.toString(), currency);
-    return true;
-  }
-
-  String? getDefaultCurrency() {
-    return StorageService.getString(StorageItem.defaultCurrency.toString());
-  }
+  Future<void> clearCache() => StorageService.clear();
 }

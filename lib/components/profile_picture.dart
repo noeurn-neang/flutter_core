@@ -1,63 +1,64 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 
-import '../configs/variables.dart';
+import '../config/flutter_core_config.dart';
 import '../constants/dimens.dart';
-import '../getx.dart';
 import '../utils/image_utils.dart';
 import 'buttons/icon_circle_button.dart';
+import 'circle_image.dart';
 
 class ProfilePicture extends StatelessWidget {
+  ProfilePicture({
+    super.key,
+    this.imageUrl,
+    this.defaultImagePath,
+    required this.onImagePicked,
+    this.size,
+  });
+
   final String? imageUrl;
-  final String defaultImagePath;
+  final String? defaultImagePath;
   final double? size;
-
-  final Function(XFile pickedFile) onImagePicked;
-
+  final void Function(XFile pickedFile) onImagePicked;
   final ImagePicker _picker = ImagePicker();
-
-  ProfilePicture(
-      {super.key,
-      this.imageUrl,
-      required this.defaultImagePath,
-      required this.onImagePicked,
-      this.size});
 
   Future<void> showPickImage(
     ImageSource source, {
     required BuildContext context,
   }) async {
-    if (context.mounted) {
-      try {
-        final XFile? pickedFile = await _picker.pickImage(
-            source: source,
-            imageQuality: Variables.uploadImageQuaility,
-            maxWidth: Variables.maxUploadImageWidth,
-            maxHeight: Variables.maxUploadImageHeight);
-        if (pickedFile != null) onImagePicked(pickedFile);
-      } catch (e) {}
-    }
+    if (!context.mounted) return;
+    try {
+      final config = FlutterCoreConfig.current;
+      final pickedFile = await _picker.pickImage(
+        source: source,
+        imageQuality: config.uploadImageQuality,
+        maxWidth: config.maxUploadImageWidth,
+        maxHeight: config.maxUploadImageHeight,
+      );
+      if (pickedFile != null) onImagePicked(pickedFile);
+    } catch (_) {}
   }
 
   @override
   Widget build(BuildContext context) {
-    ImageProvider? backgroundImage = (imageUrl != null && imageUrl!.isNotEmpty
-        ? NetworkImage(imageUrl!)
-        : AssetImage(defaultImagePath)) as ImageProvider<Object>?;
+    final radius = size ?? 50.0;
     return Padding(
       padding: const EdgeInsets.all(Dimens.margin),
       child: Stack(
-        alignment: const Alignment(1.5, 1.3),
-        children: <Widget>[
+        alignment: Alignment.bottomRight,
+        children: [
           InkWell(
             onTap: imageUrl != null && imageUrl!.isNotEmpty
-                ? () {
-                    previewImage(context: Get.context!, imageUrl: imageUrl!);
-                  }
+                ? () => previewImage(context: context, imageUrl: imageUrl!)
                 : null,
-            child: CircleAvatar(
-              backgroundImage: backgroundImage,
-              radius: size ?? 50.0,
+            child: CircleImage(
+              radius: radius,
+              imageUrl: imageUrl,
+              imageProvider: (imageUrl == null || imageUrl!.isEmpty) &&
+                      defaultImagePath != null
+                  ? AssetImage(defaultImagePath!)
+                  : null,
             ),
           ),
           MenuAnchor(
@@ -76,20 +77,18 @@ class ProfilePicture extends StatelessWidget {
             menuChildren: [
               MenuItemButton(
                 leadingIcon: const Icon(Icons.image),
+                onPressed: () =>
+                    showPickImage(ImageSource.gallery, context: context),
                 child: Text('Gallery'.tr),
-                onPressed: () {
-                  showPickImage(ImageSource.gallery, context: context);
-                },
               ),
               MenuItemButton(
                 leadingIcon: const Icon(Icons.camera),
+                onPressed: () =>
+                    showPickImage(ImageSource.camera, context: context),
                 child: Text('Camera'.tr),
-                onPressed: () {
-                  showPickImage(ImageSource.camera, context: context);
-                },
               ),
             ],
-          )
+          ),
         ],
       ),
     );

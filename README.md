@@ -1,119 +1,69 @@
-# Get start
-  ## 1. Create project
-  ```sh
-  flutter create --org com.neang.app.lottery --platforms=android,ios lotteryapp
-  ```
-  ## 2. Enable code lint
-  Open and replace with below `./analysis_options.yaml`
-  ```yaml
-  include: package:flutter_lints/flutter.yaml
+# flutter_core
 
-  linter:
-  rules:
-  - prefer_relative_imports
-  ```
-  ## 3. Add FlutterCore to project
-  Open `pubspec.yml` add below
-  ```yaml
-  dependencies:
-		flutter_core:
-			path: '../flutter_core' #Local path
-         
-			# or
+GetX bootstrap library: theme, locale, storage, HTTP, forms, and (on `main`) avatar update / image picker.
 
-			# git: # GitHub Repo
-			#   url: https://github.com/noeurn-neang/flutter_core.git
-			#   ref: main
-  ```
-  ## 4. Update your main.dart to use XMaterialApp
-  Open `./lib/main.dart` add below
-  ```dart
-  void main() async {
-    WidgetsFlutterBinding.ensureInitialized();
+## Git branches
 
-    // Init Application
-    await AppConfigs.init();
+| `ref` | What you get |
+|---|---|
+| `main` (default, **full**) | Common + camera/gallery, update avatar, PhotoView, country list |
+| `common` (**basic**) | Theme, locale, storage, HTTP, auth base, forms, avatar **display** only |
 
-    runApp(const MyApp());
+```yaml
+dependencies:
+  flutter_core:
+    git:
+      url: https://github.com/noeurn-neang/flutter_core.git
+      ref: main      # full
+      # ref: common  # basic
+```
 
-    // Run Config After App Loaded
-    FlutterCore.configLoading();
+Or a local path:
+
+```yaml
+dependencies:
+  flutter_core:
+    path: ../flutter_core
+```
+
+Shared fixes land on `common`, then merge into `main`. Picker/avatar-update commits stay on `main` only.
+
+## Quick start
+
+```dart
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  await FlutterCore.init(
+    FlutterCoreConfig(
+      authHeaderKey: 'Authorization',
+      useBearerToken: true,
+      languages: const [
+        LanguageModel(languageCode: 'km', countryCode: 'KH', title: 'ភាសារខ្មែរ'),
+        LanguageModel(languageCode: 'en', countryCode: 'US', title: 'English'),
+      ],
+    ),
+  );
+
+  runApp(const MyApp());
+  FlutterCore.configLoading();
+}
+
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return XMaterialApp(
+      initialRoute: '/',
+      getPages: [
+        GetPage(name: '/', page: () => const HomePage()),
+      ],
+    );
   }
+}
+```
 
-  class MyApp extends StatelessWidget {
-    const MyApp({super.key});
+Requires Flutter **3.47** / Dart **3.13**.
 
-    // This widget is the root of your application.
-    @override
-    Widget build(BuildContext context) {
-      return XMaterialApp(
-        initialRoute: AppPages.INITIAL,
-        initialBinding: AppBinding(),
-        getPages: AppPages.routes,
-        translationsKeys: AppTranslation.loadTranslateKeys(),
-      );
-    }
-  }
-  ```
-  ## 4. Add config file api base url and theme
-  Add new file `./lib/app/configs/app.dart` add below
-  ```dart
-  class AppConfigs {
-    AppConfigs._();
-
-    static const String baseUrl = 'http://157.230.255.189:5758';
-    static const String baseApiUrl = '$baseUrl/api';
-
-    static Future<void> init() async {
-      // Init Flutter Core Plugin
-      await FlutterCore.initApplication();
-
-      // Http Request Header
-      Variables.authHeaderKey = 'Authorizationgrown';
-
-      // Date Format
-      Variables.defaultDateFormat = 'y-MM-dd';
-      Variables.defaultDateTimeFormat = 'y-MM-dd HH:mm:ss';
-
-      // Translation
-      Variables.languages = [
-        LanguageModel("km", "kh", "ភាសារខ្មែរ"),
-        LanguageModel("en", "us", "English"),
-      ];
-
-      // Dark theme data
-      Variables.themeDataDark = ThemeData(
-        colorSchemeSeed: primaryColor,
-        useMaterial3: true,
-        brightness: Brightness.dark,
-        textTheme: const TextTheme(
-          bodySmall: TextStyle(
-            color: Color.fromARGB(255, 157, 159, 165),
-          ),
-        ),
-      );
-
-      // Light theme data
-      Variables.themeDataLight = ThemeData(
-        colorSchemeSeed: primaryColor,
-        scaffoldBackgroundColor: backgroundColor,
-        useMaterial3: true,
-        brightness: Brightness.light,
-        textTheme: const TextTheme(
-          bodySmall: TextStyle(
-            color: Color.fromARGB(255, 157, 159, 165),
-          ),
-        ),
-      );
-    }
-  }
-  ```
-      
-
-# Using Of Image Picker 
-1. IOS
-   1. Go to <project root>/ios/Runner/Info.plist 
-    NSPhotoLibraryUsageDescription
-    NSCameraUsageDescription
-    NSMicrophoneUsageDescription
-
+On `main`, add iOS photo/camera usage descriptions if you use `ProfilePicture`.

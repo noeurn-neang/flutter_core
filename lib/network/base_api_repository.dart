@@ -1,4 +1,4 @@
-import 'dart:async';
+import 'package:get/get.dart';
 
 import './base_provider.dart';
 
@@ -7,7 +7,25 @@ class BaseApiRepository {
 
   final BaseProvider apiProvider;
 
-  Future<dynamic> base(Map<String, dynamic> payload) async {
-    return apiProvider.post('/', payload);
+  Future<Response<dynamic>> getPath(String path, {Map<String, dynamic>? query}) {
+    return apiProvider.get(path, query: query);
+  }
+
+  Future<Response<dynamic>> postPath(
+    String path,
+    Map<String, dynamic> payload,
+  ) {
+    return apiProvider.post(path, payload);
+  }
+
+  Future<Response<dynamic>> putPath(
+    String path,
+    Map<String, dynamic> payload,
+  ) {
+    return apiProvider.put(path, payload);
+  }
+
+  Future<Response<dynamic>> deletePath(String path) {
+    return apiProvider.delete(path);
   }
 }
