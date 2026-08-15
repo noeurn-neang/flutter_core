@@ -19,7 +19,7 @@ class XMaterialApp extends StatelessWidget {
     this.locale,
     this.fallbackLocale,
     this.builder,
-    this.themeMode = ThemeMode.system,
+    this.themeMode,
     this.theme,
     this.darkTheme,
   }) : getPages = List<GetPage>.from(getPages ?? const []);
@@ -32,18 +32,18 @@ class XMaterialApp extends StatelessWidget {
   final Locale? locale;
   final Locale? fallbackLocale;
   final TransitionBuilder? builder;
-  final ThemeMode themeMode;
+  final ThemeMode? themeMode;
   final ThemeData? theme;
   final ThemeData? darkTheme;
 
   @override
   Widget build(BuildContext context) {
     final storedDark = StorageService.getBool(StorageItem.isDarkMode);
-    final platformDark =
-        MediaQuery.maybeOf(context)?.platformBrightness == Brightness.dark;
-    final isDarkMode = storedDark ?? platformDark;
-    final localeStr =
-        StorageService.getString(StorageItem.locale) ??
+    final resolvedMode = themeMode ??
+        (storedDark == null
+            ? ThemeMode.system
+            : (storedDark ? ThemeMode.dark : ThemeMode.light));
+    final localeStr = StorageService.getString(StorageItem.locale) ??
         FlutterCoreConfig.current.defaultLocaleCode;
 
     return GetMaterialApp(
@@ -57,11 +57,8 @@ class XMaterialApp extends StatelessWidget {
           getLocaleFromString(FlutterCoreConfig.current.defaultLocaleCode),
       debugShowCheckedModeBanner: false,
       builder: builder ?? EasyLoading.init(),
-      themeMode: themeMode,
-      theme: theme ??
-          (isDarkMode
-              ? FlutterCoreConfig.current.themeDataDark
-              : FlutterCoreConfig.current.themeDataLight),
+      themeMode: resolvedMode,
+      theme: theme ?? FlutterCoreConfig.current.themeDataLight,
       darkTheme: darkTheme ?? FlutterCoreConfig.current.themeDataDark,
     );
   }

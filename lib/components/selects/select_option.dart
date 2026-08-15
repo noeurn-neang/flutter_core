@@ -76,7 +76,7 @@ class SelectOption extends StatelessWidget {
       controller: controller,
       textInputAction: TextInputAction.next,
       decoration: InputDecoration(
-        border: border ?? const OutlineInputBorder(),
+        border: border,
         labelText: title,
         icon: icon,
         suffixIcon: const Icon(Icons.keyboard_arrow_right),

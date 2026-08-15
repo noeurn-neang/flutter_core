@@ -24,23 +24,29 @@ class DialogUtils {
       showDragHandle: true,
       useSafeArea: true,
       isScrollControlled: true,
+      backgroundColor: Theme.of(context).colorScheme.surfaceContainerLow,
       builder: (ctx) {
         return Padding(
           padding: EdgeInsets.only(
             bottom: MediaQuery.viewInsetsOf(ctx).bottom,
           ),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              ListTile(
-                title: Text(title, style: Theme.of(ctx).textTheme.titleMedium),
-                trailing: IconButton(
-                  onPressed: () => Navigator.pop(ctx),
-                  icon: const Icon(Icons.close),
+          child: ConstrainedBox(
+            constraints: BoxConstraints(
+              maxHeight: MediaQuery.sizeOf(ctx).height * 0.55,
+            ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                ListTile(
+                  title: Text(title, style: Theme.of(ctx).textTheme.titleMedium),
+                  trailing: IconButton(
+                    onPressed: () => Navigator.pop(ctx),
+                    icon: const Icon(Icons.close),
+                  ),
                 ),
-              ),
-              Flexible(child: child),
-            ],
+                Flexible(child: child),
+              ],
+            ),
           ),
         );
       },

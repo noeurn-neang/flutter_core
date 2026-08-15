@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'package:flutter_core/flutter_core.dart';
@@ -36,5 +37,13 @@ void main() {
       title: 'Khmer',
     );
     expect(language.localeCode, 'km_KH');
+  });
+
+  test('themeFromSeed uses seed color', () {
+    final theme = FlutterCoreConfig.themeFromSeed(
+      const Color(0xFF6750A4),
+      Brightness.light,
+    );
+    expect(theme.colorScheme.brightness, Brightness.light);
   });
 }

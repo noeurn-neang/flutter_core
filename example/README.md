@@ -1,9 +1,12 @@
-# Example
+# Example (full / `main`)
 
-Run from the package root:
+Catalog of every `flutter_core` API: init, theme, locale, overlays, forms,
+avatar display/update, auth session, HTTP, and utils.
 
 ```sh
-cd example && flutter run
+cd example
+flutter run                 # device / simulator
+flutter run -d chrome       # web
 ```
 
-This demo uses the **full** (`main`) API: theme, locale, confirm dialog, date field, and `CircleImage`.
+Requires Flutter 3.47. Basic-only apps should depend on `ref: common` instead.

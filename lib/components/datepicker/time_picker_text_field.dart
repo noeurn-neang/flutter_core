@@ -54,7 +54,7 @@ class TimePickerTextField extends StatelessWidget {
       textInputAction: TextInputAction.next,
       decoration: decoration ??
           InputDecoration(
-            border: border ?? const OutlineInputBorder(),
+            border: border,
             labelText: title,
             icon: icon,
             suffixIcon: const Icon(Icons.schedule),

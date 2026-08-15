@@ -58,7 +58,7 @@ class DatePickerTextField extends StatelessWidget {
       textAlign: align ?? TextAlign.start,
       decoration: decoration ??
           InputDecoration(
-            border: border ?? const OutlineInputBorder(),
+            border: border,
             labelText: title,
             icon: icon,
             suffixIcon: const Icon(Icons.calendar_today_outlined),

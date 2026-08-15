@@ -36,8 +36,8 @@ void main() async {
 
   await FlutterCore.init(
     FlutterCoreConfig(
-      authHeaderKey: 'Authorization',
       useBearerToken: true,
+      colorSchemeSeed: const Color(0xFF6750A4), // your brand color
       languages: const [
         LanguageModel(languageCode: 'km', countryCode: 'KH', title: 'ភាសារខ្មែរ'),
         LanguageModel(languageCode: 'en', countryCode: 'US', title: 'English'),
@@ -65,5 +65,10 @@ class MyApp extends StatelessWidget {
 ```
 
 Requires Flutter **3.47** / Dart **3.13**.
+
+```sh
+cd example && flutter run          # iOS / Android
+cd example && flutter run -d chrome  # web
+```
 
 On `main`, add iOS photo/camera usage descriptions if you use `ProfilePicture`.

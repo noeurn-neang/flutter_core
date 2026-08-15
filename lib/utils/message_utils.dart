@@ -4,28 +4,33 @@ import 'package:get/get.dart';
 
 void showMessage(String body, {bool isError = false, VoidCallback? onClose}) {
   final context = Get.context;
-  final scheme = context != null ? Theme.of(context).colorScheme : null;
-  Get.snackbar(
-    isError ? 'Error'.tr : 'Success'.tr,
-    body,
-    backgroundColor: isError
-        ? (scheme?.error ?? Colors.red)
-        : (scheme?.primary ?? Colors.green),
-    colorText: isError
-        ? (scheme?.onError ?? Colors.white)
-        : (scheme?.onPrimary ?? Colors.white),
-    snackbarStatus: (status) {
-      if (status == SnackbarStatus.CLOSED) {
-        onClose?.call();
-      }
-    },
-  );
+  if (context == null) return;
+
+  final scheme = Theme.of(context).colorScheme;
+  final messenger = ScaffoldMessenger.maybeOf(context);
+  if (messenger == null) return;
+
+  messenger.hideCurrentSnackBar();
+  messenger
+      .showSnackBar(
+        SnackBar(
+          content: Text(
+            body,
+            style: TextStyle(
+              color: isError ? scheme.onError : scheme.onInverseSurface,
+            ),
+          ),
+          backgroundColor: isError ? scheme.error : scheme.inverseSurface,
+        ),
+      )
+      .closed
+      .then((_) => onClose?.call());
 }
 
 void showLoading({String? message}) {
   EasyLoading.show(
     status: message ?? 'Loading...'.tr,
-    maskType: EasyLoadingMaskType.black,
+    maskType: EasyLoadingMaskType.custom,
   );
 }
 
@@ -40,10 +45,10 @@ Future<bool?> showCoreConfirm(
   String? confirmLabel,
   String? cancelLabel,
 }) {
-  return showAdaptiveDialog<bool>(
+  return showDialog<bool>(
     context: context,
     builder: (ctx) {
-      return AlertDialog.adaptive(
+      return AlertDialog(
         title: Text(title),
         content: Text(desc),
         actions: [
@@ -51,7 +56,7 @@ Future<bool?> showCoreConfirm(
             onPressed: () => Navigator.pop(ctx, false),
             child: Text(cancelLabel ?? 'Cancel'.tr),
           ),
-          TextButton(
+          FilledButton(
             onPressed: () => Navigator.pop(ctx, true),
             child: Text(confirmLabel ?? 'Confirm'.tr),
           ),

@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../config/flutter_core_config.dart';
@@ -7,7 +8,7 @@ import '../utils/theme_utils.dart';
 import '../utils/translate_utils.dart';
 
 class BaseSettingsController extends GetxController with CacheManagerMixin {
-  var isDarkMode = false.obs;
+  final isDarkMode = false.obs;
   final locale = FlutterCoreConfig.current.defaultLocaleCode.obs;
 
   @override
@@ -24,13 +25,11 @@ class BaseSettingsController extends GetxController with CacheManagerMixin {
   void handleChangeThemeMode() {
     isDarkMode.value = !isDarkMode.value;
     saveIsDarkMode(isDarkMode.value);
-    Get.changeTheme(
-      isDarkMode.value
-          ? FlutterCoreConfig.current.themeDataDark
-          : FlutterCoreConfig.current.themeDataLight,
+    Get.changeThemeMode(
+      isDarkMode.value ? ThemeMode.dark : ThemeMode.light,
     );
+    applyOverlayTheme(isDark: isDarkMode.value);
     refreshStatusBarBrightness();
-    Get.forceAppUpdate();
   }
 
   Future<void> showLanguageDialog() async {

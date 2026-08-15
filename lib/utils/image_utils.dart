@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
-import 'dart:typed_data';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:gal/gal.dart';
 import 'package:image_picker/image_picker.dart';
@@ -28,6 +28,10 @@ Future<XFile> convertUint8ListToXFile(Uint8List uint8List) async {
 }
 
 Future<void> downloadImage(String imageUrl) async {
+  if (kIsWeb) {
+    showMessage('Saving to gallery is not available on web', isError: true);
+    return;
+  }
   showLoading();
   try {
     await Gal.putImage(imageUrl);

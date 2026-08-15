@@ -10,6 +10,7 @@ class FlutterCoreConfig {
     this.defaultLocaleCode = 'en_US',
     this.defaultDateFormat = 'd-MMM-y',
     this.defaultDateTimeFormat = 'dd-MMM-y HH:mm:ss',
+    this.colorSchemeSeed = Colors.deepOrange,
     List<LanguageModel>? languages,
     ThemeData? themeDataLight,
     ThemeData? themeDataDark,
@@ -24,18 +25,13 @@ class FlutterCoreConfig {
                 title: 'English',
               ),
             ],
-        themeDataLight = themeDataLight ??
-            ThemeData(
-              colorSchemeSeed: Colors.deepOrange,
-              brightness: Brightness.light,
-            ),
-        themeDataDark = themeDataDark ??
-            ThemeData(
-              colorSchemeSeed: Colors.deepOrange,
-              brightness: Brightness.dark,
-            );
+        themeDataLight = themeDataLight ?? themeFromSeed(colorSchemeSeed, Brightness.light),
+        themeDataDark = themeDataDark ?? themeFromSeed(colorSchemeSeed, Brightness.dark);
 
   static FlutterCoreConfig current = FlutterCoreConfig();
+
+  /// Brand color. Used when [themeDataLight] / [themeDataDark] are omitted.
+  Color colorSchemeSeed;
 
   String authHeaderKey;
   bool useBearerToken;
@@ -49,4 +45,31 @@ class FlutterCoreConfig {
   double maxUploadImageWidth;
   double maxUploadImageHeight;
   int uploadImageQuality;
+
+  /// Material 3 theme so dialogs, sheets, and snackbars match the seed.
+  static ThemeData themeFromSeed(Color seed, Brightness brightness) {
+    final scheme = ColorScheme.fromSeed(
+      seedColor: seed,
+      brightness: brightness,
+    );
+    return ThemeData(
+      colorScheme: scheme,
+      brightness: brightness,
+      snackBarTheme: SnackBarThemeData(
+        behavior: SnackBarBehavior.floating,
+        backgroundColor: scheme.inverseSurface,
+        contentTextStyle: TextStyle(color: scheme.onInverseSurface),
+      ),
+      dialogTheme: DialogThemeData(
+        backgroundColor: scheme.surfaceContainerHigh,
+      ),
+      bottomSheetTheme: BottomSheetThemeData(
+        backgroundColor: scheme.surfaceContainerLow,
+        showDragHandle: true,
+      ),
+      inputDecorationTheme: const InputDecorationTheme(
+        border: OutlineInputBorder(),
+      ),
+    );
+  }
 }

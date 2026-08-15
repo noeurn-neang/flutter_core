@@ -1,4 +1,3 @@
-import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
@@ -58,6 +57,7 @@ class FlutterCore {
 
     await GetStorage.init();
     refreshStatusBarBrightness();
+    applyOverlayTheme();
   }
 
   /// Kept for existing call sites.
@@ -65,13 +65,6 @@ class FlutterCore {
       init(config);
 
   static void configLoading() {
-    EasyLoading.instance
-      ..displayDuration = const Duration(milliseconds: 2000)
-      ..indicatorType = EasyLoadingIndicatorType.fadingCircle
-      ..loadingStyle = EasyLoadingStyle.dark
-      ..indicatorSize = 45.0
-      ..radius = 10.0
-      ..userInteractions = true
-      ..dismissOnTap = false;
+    applyOverlayTheme();
   }
 }
